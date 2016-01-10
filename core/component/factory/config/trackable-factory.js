@@ -6,7 +6,7 @@
 function TrackableFactory(){
     this.create = function(){
         return {
-            //elements patter
+            //elements pattern
             pattern: null,
             //events to observe
             events: [],
