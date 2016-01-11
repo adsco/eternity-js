@@ -11,7 +11,7 @@ function TrackableFactory(){
             //events to observe
             events: [],
             //attributes values to retrieve on event trigger
-            attributes: []
+            signer: null
         };
     };
 }

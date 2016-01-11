@@ -5,5 +5,5 @@ function getTrackableObject(){
 QUnit.test('Trackable object test', function(assert){
     var object = getTrackableObject();
     
-    assert.deepEqual(object.create(), {pattern: null, events: [], attributes: []}, 'Creating trackable object');
+    assert.deepEqual(object.create(), {pattern: null, events: [], signer: null}, 'Creating trackable object');
 });
