@@ -1,5 +1,13 @@
 function getDomObserver(){
-    var domObservable = new DOMObserver(new DOMCrawler(new QueryBuilder()), new ElementBinder());
+    var domObservable = new DOMObserver(
+        new DOMCrawler(
+            new QueryBuilder()
+        ),
+        new ElementBinder(),
+        {
+            resolve: function(){}
+        }
+    );
     
     return domObservable;
 }

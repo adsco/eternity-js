@@ -6,7 +6,7 @@
  * 
  * @see trackable-factory.js
  */
-function DOMObserver(domCrawler, elementBinder){
+function DOMObserver(domCrawler, elementBinder, resolver){
     /**
      * @type DOMCrawler
      */
@@ -16,6 +16,11 @@ function DOMObserver(domCrawler, elementBinder){
      * @type ElementBinder
      */
     var _elementBinder = null;
+    
+    /**
+     * @type Resolver
+     */
+    var _resolver = null;
     
     /**
      * @type Element[]
@@ -36,17 +41,14 @@ function DOMObserver(domCrawler, elementBinder){
         }
         
         sign = observableElement.signer.sign(observableElement.element);
+        
+        _resolver.resolve(this, e, sign);
     };
     
-    var _construct = function(domCrawler, elementBinder){
+    var _construct = function(domCrawler, elementBinder, resolver){
         _domCrawler = domCrawler;
         _elementBinder = elementBinder;
-        
-//        {
-//            pattern: '',
-//            events: '',
-//            signer: ''
-//        }
+        _resolver = resolver;
     };
     
     this.addTrackable = function(trackable){
@@ -86,5 +88,5 @@ function DOMObserver(domCrawler, elementBinder){
         return null;
     };
     
-    _construct.call(this, domCrawler, elementBinder);
+    _construct.call(this, domCrawler, elementBinder, resolver);
 }

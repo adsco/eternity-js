@@ -3,7 +3,7 @@ function getSingleSigner(){
         getAttributes: function(element, attributes){
             return {'data-cell-id': element.getAttribute('data-cell-id')};
         }
-    });
+    }, 'data-cell-id');
 }
 
 function getMockElement(){
