@@ -6,35 +6,56 @@
  * 
  * @see trackable-factory.js
  */
-function DOMObserver(crawler, elementBinder){
-    var _crawler = null;
+function DOMObserver(domCrawler, elementBinder){
+    /**
+     * @type DOMCrawler
+     */
+    var _domCrawler = null;
     
+    /**
+     * @type ElementBinder
+     */
     var _elementBinder = null;
     
+    /**
+     * @type Element[]
+     */
     var _elements = [];
     
+    /**
+     * Internal event handler
+     * 
+     * @param {Event} e
+     */
     var _handler = function(e){
-        console.log(e);
+        var observableElement = _getElement(e.currentTarget),
+            sign;
+        
+        if(null === observableElement){
+            throw new Error('Element not found' + e.tagName);
+        }
+        
+        sign = observableElement.signer.sign(observableElement.element);
     };
     
-    var _construct = function(crawler, elementBinder){
-        _crawler = crawler;
+    var _construct = function(domCrawler, elementBinder){
+        _domCrawler = domCrawler;
         _elementBinder = elementBinder;
         
 //        {
 //            pattern: '',
 //            events: '',
-//            attributes: ''
+//            signer: ''
 //        }
     };
     
     this.addTrackable = function(trackable){
-        var elements = _crawler.getElements({tag: 'body'}, trackable.pattern),
+        var elements = _domCrawler.getElements({tag: 'body'}, trackable.pattern),
             i;
         
         for(i = 0; i < elements.length; i++){
             _elementBinder.attachListener(elements[i], trackable.events, _handler);
-            _registerElement(elements[i]);
+            _registerElement(elements[i], trackable.signer);
         }
     };
     
@@ -46,9 +67,24 @@ function DOMObserver(crawler, elementBinder){
         }
     };
     
-    var _registerElement = function(element){
-        _elements.push(element);
+    var _registerElement = function(element, signer){
+        _elements.push({
+            element: element,
+            signer: signer
+        });
     };
     
-    _construct.call(this, crawler, elementBinder);
+    var _getElement = function(element){
+        var i;
+        
+        for(i = 0; i < _elements.length; i++){
+            if(_elements[i].element === element){
+                return _elements[i];
+            }
+        }
+        
+        return null;
+    };
+    
+    _construct.call(this, domCrawler, elementBinder);
 }

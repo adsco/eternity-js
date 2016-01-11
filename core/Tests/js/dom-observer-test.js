@@ -8,10 +8,12 @@ function getTrackable(){
     return {
         //elements pattern
         pattern: {tag: 'input'},
-        //events to observe
+        //events to listen
         events: ['change', 'keypress'],
         //attributes values to retrieve on event trigger
-        attributes: []
+        signer: {
+            sign: function(){ console.log('signing');}
+        }
     };
 }
 
