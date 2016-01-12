@@ -2,7 +2,7 @@ function Handler(domObserver){
     /**
      * @type String
      */
-    var RESULT_TYPE = 'update';
+    var RESULT_TYPE = 'update-value';
     
     /**
      * 
