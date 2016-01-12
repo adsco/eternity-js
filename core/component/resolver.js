@@ -23,11 +23,9 @@ function Resolver(resultResolver){
         return this;
     };
     
-    this.resolve = function(element, e, sign){
+    this.resolve = function(element, e){
         var result,
-            handler;
-        
-        handler = _getHandler(sign);
+            handler = _getHandlers(element, e);
         
         if(handler){
             result = handler.handle(element, e);
@@ -36,16 +34,17 @@ function Resolver(resultResolver){
         }
     };
     
-    var _getHandler = function(sign){
-        var i;
+    var _getHandlers = function(element, e){
+        var handlers = [],
+            i;
         
         for(i = 0; i < _handlers.length; i++){
-            if(_handlers[i].supports(sign)){
-                return _handlers[i];
+            if(_handlers[i].supports(element, e)){
+                handlers.push(_handlers[i]);
             }
         }
         
-        return null;
+        return handlers;
     };
     
     _construct.call(this, resultResolver);
