@@ -25,12 +25,15 @@ function Resolver(resultResolver){
     
     this.resolve = function(element, e){
         var result,
-            handler = _getHandlers(element, e);
+            handlers = _getHandlers(element, e),
+            i;
         
-        if(handler){
-            result = handler.handle(element, e);
+        if(handlers.length){
+            for(i = 0; i < handlers.length; i++){
+                result = handlers[i].handle(element, e);
             
-            _resultResolver.resolve(result);
+                _resultResolver.resolve(result);
+            }
         }
     };
     
