@@ -1,7 +1,7 @@
 /**
  * Calculus result handler
  */
-function CalculusResultHandler(domObserver){
+function CalculusResultHandler(domRepository){
     /**
      * @type String
      */
@@ -9,17 +9,17 @@ function CalculusResultHandler(domObserver){
     
     /**
      * 
-     * @type DOMObserver
+     * @type DOMRepository
      */
-    var _domObserver = null;
+    var _domRepository = null;
 
     /**
      * Constructor
      * 
-     * @param {DOMObserver} domObserver
+     * @param {DOMRepository} domRepository
      */
-    var _construct = function(domObserver){
-        _domObserver = domObserver;
+    var _construct = function(domRepository){
+        _domRepository = domRepository;
     };
 
     /**
@@ -41,7 +41,7 @@ function CalculusResultHandler(domObserver){
         var i;
         
         for(i = 0; i < result.data.length; i++){
-            _domObserver.update(
+            _domRepository.update(
                 result.data[i].field,
                 _decorate(result.data[i].value)
             );
@@ -58,5 +58,5 @@ function CalculusResultHandler(domObserver){
         return value;
     };
     
-    _construct.call(this, domObserver);
+    _construct.call(this, domRepository);
 }
