@@ -22,7 +22,7 @@ function DOMCrawler(queryBuilder){
     /**
      * Get elements that match speicific pattern
      * 
-     * @param {Object} parent - container selector within which elements should be found
+     * @param {Object} parent - search scope/container selector within which elements should be found
      * @param {Object} pattern - elements selector
      * @returns {element[]}
      */
@@ -59,7 +59,7 @@ function DOMCrawler(queryBuilder){
         
         if('undefined' !== typeof pattern.attributes){
             for(i = 0; i < pattern.attributes.length; i++){
-                query.addAttribute(pattern.attributes);
+                query.addAttribute(pattern.attributes[i]);
             }
         }
         
