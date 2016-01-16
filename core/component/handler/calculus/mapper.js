@@ -11,12 +11,13 @@ function Mapper(){
      * Add new formula
      * 
      * @param {String} field - field identifier
+     * @param {String} target - field whos value to update
      * @param {Function} handler - formula
      * @param {Boolean} replace - if true passed and field already mapped, 
      * will replace field handler, if false passed and field already mapped - throws error
      * @returns {Mapper}
      */
-    this.add = function(field, handler, replace){
+    this.add = function(field, target, handler, replace){
         var map = this.get(field);
         
         //resolve value, by default false
@@ -26,10 +27,12 @@ function Mapper(){
             throw new Error('Field "' + field + '" already mapped, pass replace true flag if you want to replace formula');
         } else if(map && true === replace) {
             map.field = field;
+            map.target = target;
             map.handler = handler;
         } else {
             _fields.push({
                 field: field,
+                target: target,
                 handler: handler
             });
         }

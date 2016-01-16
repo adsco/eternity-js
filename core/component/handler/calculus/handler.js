@@ -68,7 +68,10 @@ function CalculusHandler(dataProvider, mapper, elementCrawler){
         _clearResult();
         _calculate(map);
         
-        return _result;
+        return {
+            type: 'update-value',
+            data: _result
+        };
     };
     
     /**
@@ -84,12 +87,16 @@ function CalculusHandler(dataProvider, mapper, elementCrawler){
         if(map){
             result = map.handler(me);
             
-            _appendResult(field, result);
+            _appendResult(map.target, result);
             
             return result;
         } else {
             return _dataProvider.getValue(field);
         }
+    };
+    
+    this.getMyValue = function(field){
+        return _dataProvider.getValue(field);
     };
     
     /**
