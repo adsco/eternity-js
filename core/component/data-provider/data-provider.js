@@ -36,7 +36,7 @@ function DataProvider(domRepository, elementCrawler){
      * @returns {String}
      */
     this.getValue = function(identifier){
-        var element = _domRepository.find(identifier);
+        var element = _domRepository.getSingle(identifier);
         
         if(!element){
             throw new Error('Element with identifier "' + identifier + '" is not found');
