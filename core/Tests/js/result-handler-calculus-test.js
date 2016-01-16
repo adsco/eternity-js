@@ -1,7 +1,7 @@
 var value;
 
 function getResultHandlerCalculus(){
-    return new Handler({
+    return new CalculusResultHandler({
         update: function(){
             value = 1;
         }

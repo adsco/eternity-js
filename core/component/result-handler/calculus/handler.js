@@ -1,4 +1,7 @@
-function Handler(domObserver){
+/**
+ * Calculus result handler
+ */
+function CalculusResultHandler(domObserver){
     /**
      * @type String
      */
