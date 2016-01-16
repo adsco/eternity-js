@@ -1,7 +1,7 @@
 /**
  * Calculus handler
  */
-function Handler(dataProvider, mapper, elementCrawler){
+function CalculusHandler(dataProvider, mapper, elementCrawler){
     /**
      * @type Handler
      */

@@ -1,5 +1,5 @@
 function getHandler(){
-    return new Handler(
+    return new CalculusHandler(
         //data provider
         {
             getValue: function(){
@@ -39,7 +39,7 @@ function getComplexHandler(){
         }
     };
     
-    return new Handler(
+    return new CalculusHandler(
         //data provider
         provider,
         //mapper
