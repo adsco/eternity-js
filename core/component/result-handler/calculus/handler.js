@@ -38,13 +38,14 @@ function CalculusResultHandler(domRepository){
      * @param {Result} result
      */
     this.handle = function(result){
-        var i;
+        var field,
+            i;
         
         for(i = 0; i < result.data.length; i++){
-            _domRepository.update(
-                result.data[i].field,
-                _decorate(result.data[i].value)
-            );
+            field = _domRepository.getSingle(result.data[i].field);
+            if(field){
+                field.value = _decorate(result.data[i].value);
+            }
         }
     };
     
