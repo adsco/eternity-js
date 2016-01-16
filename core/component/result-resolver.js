@@ -29,7 +29,7 @@ function ResultResolver(){
             i;
         
         for(i = 0; i < handlers.length; i++){
-            handlers.handle(result);
+            handlers[i].handle(result);
         }
     };
 
@@ -44,7 +44,7 @@ function ResultResolver(){
             i;
     
         for(i = 0; i < _handlers.length; i++){
-            if(_handlers.supports(result)){
+            if(_handlers[i].supports(result)){
                 handlers.push(_handlers[i]);
             }
         }
