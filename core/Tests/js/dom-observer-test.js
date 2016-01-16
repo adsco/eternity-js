@@ -1,44 +1,30 @@
 function getDomObserver(){
     var domObservable = new DOMObserver(
-        new DOMCrawler(
-            new QueryBuilder()
-        ),
         new ElementBinder(),
         {
-            resolve: function(){}
+            resolve: function(element, e){
+                console.log(element, e);
+            }
         }
     );
     
     return domObservable;
 }
 
-function getTrackable(){
-    return {
-        //elements pattern
-        pattern: {tag: 'input'},
-        //events to listen
-        events: ['change', 'keypress'],
-        //attributes values to retrieve on event trigger
-        signer: {
-            sign: function(){ console.log('signing');}
-        }
-    };
-}
-
-function prepareInvironment(){
+function getInput(){
     var container = document.getElementById('environment'),
         input = document.createElement('input');
     
     container.appendChild(input);
+    
+    return input;
 }
 
 QUnit.test('DOMObserver test', function(assert){
     var domObservable = getDomObserver(),
-        trackable = getTrackable();
+        input = getInput();
     
-    prepareInvironment();
-    
-    domObservable.addTrackable(trackable);
+    domObservable.observe([input], ['change', 'keypress']);
     
     assert.equal();
 });

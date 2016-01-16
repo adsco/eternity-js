@@ -6,11 +6,7 @@
  * 
  * @see trackable-factory.js
  */
-function DOMObserver(domCrawler, elementBinder, resolver){
-    /**
-     * @type DOMCrawler
-     */
-    var _domCrawler = null;
+function DOMObserver(elementBinder, resolver){
     
     /**
      * @type ElementBinder
@@ -33,31 +29,21 @@ function DOMObserver(domCrawler, elementBinder, resolver){
      * @param {Event} e
      */
     var _handler = function(e){
-        var observableElement = _getElement(e.currentTarget),
-            sign;
-        
-        if(null === observableElement){
-            throw new Error('Element not found' + e.tagName);
-        }
-        
-        sign = observableElement.signer.sign(observableElement.element);
-        
-        _resolver.resolve(this, e, sign);
+        //this - element that triggered event
+        _resolver.resolve(this, e);
     };
     
-    var _construct = function(domCrawler, elementBinder, resolver){
-        _domCrawler = domCrawler;
+    var _construct = function(elementBinder, resolver){
         _elementBinder = elementBinder;
         _resolver = resolver;
     };
     
-    this.addTrackable = function(trackable){
-        var elements = _domCrawler.getElements({tag: 'body'}, trackable.pattern),
-            i;
+    this.observe = function(elements, events){
+        var i;
         
         for(i = 0; i < elements.length; i++){
-            _elementBinder.attachListener(elements[i], trackable.events, _handler);
-            _registerElement(elements[i], trackable.signer);
+            _elementBinder.attachListener(elements[i], events, _handler);
+            _registerElement(elements[i]);
         }
     };
     
@@ -69,24 +55,9 @@ function DOMObserver(domCrawler, elementBinder, resolver){
         }
     };
     
-    var _registerElement = function(element, signer){
-        _elements.push({
-            element: element,
-            signer: signer
-        });
+    var _registerElement = function(element){
+        _elements.push(element);
     };
     
-    var _getElement = function(element){
-        var i;
-        
-        for(i = 0; i < _elements.length; i++){
-            if(_elements[i].element === element){
-                return _elements[i];
-            }
-        }
-        
-        return null;
-    };
-    
-    _construct.call(this, domCrawler, elementBinder, resolver);
+    _construct.call(this, elementBinder, resolver);
 }
