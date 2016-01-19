@@ -1,7 +1,7 @@
 function getDataProvider(){
     return new DataProvider(
         {
-            find: function(){
+            getSingle: function(){
                 var element = document.createElement('input');
                 
                 element.value = 125;
