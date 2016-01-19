@@ -1,6 +1,6 @@
 function getDomObserver(){
-    var domObservable = new DOMObserver(
-        new ElementBinder(),
+    var domObservable = new Eternity.Components.DOM.Observer(
+        new Eternity.Components.DOM.Element.Binder(),
         {
             resolve: function(element, e){
                 console.log(element, e);

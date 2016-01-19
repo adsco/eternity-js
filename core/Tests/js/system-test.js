@@ -1,52 +1,52 @@
 function getQueryBuilder(){
-    return new QueryBuilder();
+    return new Eternity.Helper.QueryBuilder();
 }
 
 function getDOMCrawler(queryBuilder){
-    return new DOMCrawler(queryBuilder);
+    return new Eternity.Components.DOM.Crawler(queryBuilder);
 }
 
 function getDOMRepository(){
-    return new DOMRepository();
+    return new Eternity.Components.DOM.Repository();
 }
 
 function getDOMObserver(elementBinder, resolver){
-    return new DOMObserver(elementBinder, resolver);
+    return new Eternity.Components.DOM.Observer(elementBinder, resolver);
 }
 
 function getResolver(resultResolver){
-    return new Resolver(resultResolver);
+    return new Eternity.Components.Input.Resolver.Resolver(resultResolver);
 }
 
 function getResultResolver(){
-    return new ResultResolver();
+    return new Eternity.Components.Output.Resolver.Resolver();
 }
 
 function getElementBinder(){
-    return new ElementBinder();
+    return new Eternity.Components.DOM.Element.Binder();
 }
 
 function getHandler(dataProvider, elementCrawler){
-    var mapper = new Mapper();
+    var mapper = new Eternity.Helper.Mapper();
     
     //prepend some rules for mapper
     mapper.add('input1', 'input2', function(handler){
         return handler.getMyValue('input1') * 2;
     });
     
-    return new CalculusHandler(dataProvider, mapper, elementCrawler);
+    return new Eternity.Components.Input.Handler.Calculus(dataProvider, mapper, elementCrawler);
 }
 
 function getResultHandler(domRepository){
-    return new CalculusResultHandler(domRepository);
+    return new Eternity.Components.Output.Handler.ValueUpdater(domRepository);
 }
 
 function getDataProvider(domRepository, elementCrawler){
-    return new DataProvider(domRepository, elementCrawler);
+    return new Eternity.Components.Provider.Data(domRepository, elementCrawler);
 }
 
 function getElementCrawler(){
-    return new ElementCrawler();
+    return new Eternity.Components.DOM.Element.Crawler();
 }
 
 function prepareEnvironment(){

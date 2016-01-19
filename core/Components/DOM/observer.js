@@ -6,7 +6,7 @@
  * 
  * @see trackable-factory.js
  */
-function DOMObserver(elementBinder, resolver){
+Eternity.Components.DOM.Observer = function(elementBinder, resolver){
     
     /**
      * @type ElementBinder

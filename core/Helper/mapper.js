@@ -1,7 +1,7 @@
 /**
  * Calculus handler formula mapper
  */
-function Mapper(){
+Eternity.Helper.Mapper = function(){
     /**
      * @type mixed[]
      */

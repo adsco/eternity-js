@@ -1,5 +1,5 @@
 function getElementBinder(){
-    return new ElementBinder();
+    return new Eternity.Components.DOM.Element.Binder();
 }
 
 function getConfig(){

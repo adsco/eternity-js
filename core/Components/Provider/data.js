@@ -7,7 +7,7 @@
  * @param {DOMRepository} domRepository - DOM repository
  * @param {ElementCrawler} elementCrawler - element crawler
  */
-function DataProvider(domRepository, elementCrawler){
+Eternity.Components.Provider.Data = function(domRepository, elementCrawler){
     /**
      * @type DOMRepository
      */

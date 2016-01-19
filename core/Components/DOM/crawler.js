@@ -4,7 +4,7 @@
  * 
  * @param {QueryBuilder} queryBuilder - query builder to be used for query creation
  */
-function DOMCrawler(queryBuilder){
+Eternity.Components.DOM.Crawler = function(queryBuilder){
     /**
      * @type QueryBuilder
      */

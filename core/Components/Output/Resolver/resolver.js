@@ -1,7 +1,7 @@
 /**
  * Resolve result handlers
  */
-function ResultResolver(){
+Eternity.Components.Output.Resolver.Resolver = function(){
     /**
      * @type ResultHandler[]
      */

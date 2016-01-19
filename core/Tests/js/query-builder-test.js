@@ -1,5 +1,5 @@
 function getQueryBuilder(){
-    return new QueryBuilder();
+    return new Eternity.Helper.QueryBuilder();
 }
 
 QUnit.test('Empty query creation', function(assert){

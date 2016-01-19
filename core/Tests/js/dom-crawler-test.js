@@ -37,7 +37,7 @@ function getMockContainer(){
 QUnit.test('DOMCrawler test', function(assert){
     var container = getMockContainer(),
         builder = getQueryBuilder(),
-        crawler = new DOMCrawler(builder),
+        crawler = new Eternity.Components.DOM.Crawler(builder),
         el;
     
     //Grab inexisting element

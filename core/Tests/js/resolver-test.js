@@ -1,7 +1,7 @@
 var _result;
 
 function getResolver(){
-    return new Resolver({
+    return new Eternity.Components.Input.Resolver.Resolver({
         resolve: function(result){
             _result = result;
         }

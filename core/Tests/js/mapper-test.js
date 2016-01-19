@@ -1,5 +1,5 @@
 function getMapper(){
-    return new Mapper();
+    return new Eternity.Helper.Mapper();
 }
 
 QUnit.test('Mapper test', function(assert){

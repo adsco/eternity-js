@@ -1,4 +1,7 @@
-function DOMRepository(){
+/**
+ * Storage for references to DOM elements
+ */
+Eternity.Components.DOM.Repository = function(){
     /**
      * @type Array
      */

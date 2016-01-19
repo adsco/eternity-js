@@ -1,7 +1,7 @@
 var value = {};
 
 function getResultHandlerCalculus(){
-    return new CalculusResultHandler({
+    return new Eternity.Components.Output.Handler.ValueUpdater({
         getSingle: function(){
             return value;
         }

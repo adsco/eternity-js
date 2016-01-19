@@ -1,5 +1,5 @@
 function getDataProvider(){
-    return new DataProvider(
+    return new Eternity.Components.Provider.Data(
         {
             getSingle: function(){
                 var element = document.createElement('input');

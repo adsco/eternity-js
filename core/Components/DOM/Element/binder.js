@@ -7,7 +7,7 @@
  *     handler: <function>
  * }
  */
-function ElementBinder(){
+Eternity.Components.DOM.Element.Binder = function(){
     this.attachListener = function(element, events, handler){
         var i;
         
@@ -15,4 +15,4 @@ function ElementBinder(){
             element.addEventListener(events[i], handler);
         }
     };
-}
+};

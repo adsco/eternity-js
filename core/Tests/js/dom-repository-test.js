@@ -1,5 +1,5 @@
 function getDOMRepository(){
-    return new DOMRepository();
+    return new Eternity.Components.DOM.Repository();
 }
 
 function getElements(){

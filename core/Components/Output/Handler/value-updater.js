@@ -1,7 +1,7 @@
 /**
  * Calculus result handler
  */
-function CalculusResultHandler(domRepository){
+Eternity.Components.Output.Handler.ValueUpdater = function(domRepository){
     /**
      * @type String
      */

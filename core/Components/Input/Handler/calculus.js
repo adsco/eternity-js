@@ -1,7 +1,7 @@
 /**
  * Calculus handler
  */
-function CalculusHandler(dataProvider, mapper, elementCrawler){
+Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elementCrawler){
     /**
      * @type Handler
      */

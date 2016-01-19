@@ -1,7 +1,7 @@
 /**
  * Element's attributes retriever
  */
-function ElementCrawler(){
+Eternity.Components.DOM.Element.Crawler = function(){
     /**
      * Get list of attributes
      * 

@@ -1,5 +1,5 @@
 function getHandler(){
-    return new CalculusHandler(
+    return new Eternity.Components.Input.Handler.Calculus(
         //data provider
         {
             getValue: function(){
@@ -40,7 +40,7 @@ function getComplexHandler(){
         }
     };
     
-    return new CalculusHandler(
+    return new Eternity.Components.Input.Handler.Calculus(
         //data provider
         provider,
         //mapper

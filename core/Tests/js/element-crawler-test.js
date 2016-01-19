@@ -1,5 +1,5 @@
 function getElementCrawler(){
-    return new ElementCrawler();
+    return new Eternity.Components.DOM.Element.Crawler();
 }
 
 function decorateElement(element){

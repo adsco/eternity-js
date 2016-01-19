@@ -1,4 +1,7 @@
-function Resolver(resultResolver){
+/**
+ * Base input resolver
+ */
+Eternity.Components.Input.Resolver.Resolver = function(resultResolver){
     /**
      * @type Handler[]
      */

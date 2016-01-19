@@ -1,7 +1,7 @@
 /**
  * document.querySelector query builder
  */
-function QueryBuilder(){
+Eternity.Helper.QueryBuilder = function(){
     /**
      * Cached named queries
      * @type Array
