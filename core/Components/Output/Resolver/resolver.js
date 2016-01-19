@@ -51,4 +51,4 @@ Eternity.Components.Output.Resolver.Resolver = function(){
         
         return handlers;
     };
-}
+};

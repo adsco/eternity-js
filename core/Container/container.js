@@ -1,7 +1,7 @@
 /**
  * IoC
  */
-Eternity.Components.Container.Container = function(){
+Eternity.Container.Container = function(){
     /**
      * @type Container
      */
@@ -13,6 +13,11 @@ Eternity.Components.Container.Container = function(){
     var _config = {};
     
     /**
+     * @type JSON
+     */
+    var _services = {};
+    
+    /**
      * Register new class for IoC
      * 
      * @param {String} name - system name
@@ -22,7 +27,7 @@ Eternity.Components.Container.Container = function(){
      */
     this.register = function(name, className, args){
         if(!name || name.trim().length < 1){
-            throw new Error('Name required');
+            throw new Error('Name required, given arguments are: ' + name + ', ' + className + ', ' + args.join(', '));
         }
         
         if(_getConfig(name)){
@@ -97,8 +102,16 @@ Eternity.Components.Container.Container = function(){
      * @returns {Object|String}
      */
     var _getArgument = function(argument){
+        var service;
+        
         if(0 === argument.indexOf('@')){
-            return _create(argument.substring(1));
+            service = argument.substring(1);
+            
+            if(_serviceExists(service)){
+                return _getService(service);
+            } else {
+                return _create(service);
+            }
         }
         
         return argument;
@@ -121,7 +134,15 @@ Eternity.Components.Container.Container = function(){
      * @returns {Object|null}
      */
     var _getClass = function(name){
-        return window[name] || null;
+        var classPath = name.split('.'),
+            cls = window[classPath[0]],
+            i;
+    
+        for(i = 1; i < classPath.length; i++){
+            cls = cls[classPath[i]];
+        }
+    
+        return cls || null;
     };
     
     /**
@@ -132,21 +153,66 @@ Eternity.Components.Container.Container = function(){
      */
     var _create = function(name){
         var config = _getConfig(name),
-            cls,
-            //bind function 1-st argument ignored cause new operator used
-            //for creating objects
-            args = [null];
+            service;
         
         if(!config){
             throw new Error('Class "' + name + '" is not registered');
         }
         
-        cls = _getClass(config.name);
+        service = _getService(name);
+        if(!service){
+            service = _createInstance(config);
+            _registerService(name, service);
+        }
+        
+        return service;
+    };
+    
+    var _createInstance = function(config){
+        //bind function 1-st argument ignored cause new operator used
+        //for creating objects
+        var args = [null],
+            cls = _getClass(config.name);
+    
         if(!cls){
             throw new Error('Class "' + config.name + '" is not found');
         }
         
         args = args.concat(_getArguments(config.args));
+        
         return new (Function.prototype.bind.apply(cls, args));
     };
-}
+    
+    /**
+     * Register service
+     * 
+     * @param {String} name - service system name
+     * @param {Object} service - service itself
+     * @returns {Container}
+     */
+    var _registerService = function(name, service){
+        _services[name] = service;
+        
+        return this;
+    };
+    
+    /**
+     * Check is service exists
+     * 
+     * @param {String} name
+     * @returns {Boolean}
+     */
+    var _serviceExists = function(name){
+        return _services.hasOwnProperty(name);
+    };
+    
+    /**
+     * Get service by system name
+     * 
+     * @param {String} name - service system name
+     * @returns {Object|null}
+     */
+    var _getService = function(name){
+        return _services[name] || null;
+    };
+};

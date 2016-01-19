@@ -84,11 +84,11 @@ QUnit.test('Testing system', function(assert){
     
     prepareEnvironment();
     
-    var elements = Array.prototype.slice.call(domCrawler.getElements({tag: 'body'}, {tag: 'input', attributes: [{name: 'data-type', value: 'cell'}]}), 0);
-    
-    domRepository.add(elements);
-    
-    domObserver.observe(elements, ['keyup']);
+//    var elements = Array.prototype.slice.call(domCrawler.getElements({tag: 'body'}, {tag: 'input', attributes: [{name: 'data-type', value: 'cell'}]}), 0);
+//    
+//    domRepository.add(elements);
+//    
+//    domObserver.observe(elements, ['keyup']);
     
     assert.ok(true);
 });

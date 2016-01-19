@@ -170,4 +170,4 @@ Eternity.Helper.QueryBuilder = function(){
             attributes: []
         };
     };
-}
+};

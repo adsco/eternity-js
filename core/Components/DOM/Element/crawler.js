@@ -34,4 +34,4 @@ Eternity.Components.DOM.Element.Crawler = function(){
             return element.getAttribute(attribute);
         }
     };
-}
+};

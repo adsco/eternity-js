@@ -19,7 +19,7 @@ Eternity.Components.DOM.Repository = function(){
      * @returns {DOMRepository}
      */
     this.add = function(element){
-        if(element instanceof Array){
+        if(element instanceof Array || element instanceof NodeList){
             _addElements(element);
         } else {
             _addElement(element);
@@ -86,6 +86,7 @@ Eternity.Components.DOM.Repository = function(){
      * element id already used by another element
      */
     var _addElement = function(element){
+        console.log(element);
         if('undefined' === typeof element.id){
             throw new Error('Missing id property for element');
         }
@@ -97,4 +98,4 @@ Eternity.Components.DOM.Repository = function(){
         _ids.push(element.id);
         _elements.push(element);
     };
-}
+};

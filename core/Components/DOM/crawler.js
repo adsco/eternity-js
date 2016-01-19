@@ -89,4 +89,4 @@ Eternity.Components.DOM.Crawler = function(queryBuilder){
     };
     
     _construct.call(this, queryBuilder);
-}
+};

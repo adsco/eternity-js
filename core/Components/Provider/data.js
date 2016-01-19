@@ -46,4 +46,4 @@ Eternity.Components.Provider.Data = function(domRepository, elementCrawler){
     };
     
     _construct.call(this, domRepository, elementCrawler);
-}
+};

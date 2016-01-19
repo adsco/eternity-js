@@ -19,45 +19,39 @@ Eternity.Components.DOM.Observer = function(elementBinder, resolver){
     var _resolver = null;
     
     /**
-     * @type Element[]
-     */
-    var _elements = [];
-    
-    /**
      * Internal event handler
      * 
      * @param {Event} e
      */
-    var _handler = function(e){
+    var _handle = function(e){
         //this - element that triggered event
         _resolver.resolve(this, e);
     };
     
+    /**
+     * Constructor
+     * 
+     * @param {Eternity.Components.DOM.Element.Binder} elementBinder - element event binder
+     * @param {Eternity.Components.Input.Resolver.Resolver} resolver - handlers resolver
+     */
     var _construct = function(elementBinder, resolver){
         _elementBinder = elementBinder;
         _resolver = resolver;
     };
     
+    /**
+     * 
+     * @param {type} elements
+     * @param {type} events
+     * @returns {undefined}
+     */
     this.observe = function(elements, events){
         var i;
-        
+
         for(i = 0; i < elements.length; i++){
-            _elementBinder.attachListener(elements[i], events, _handler);
-            _registerElement(elements[i]);
+            _elementBinder.attachListener(elements[i], events, _handle);
         }
-    };
-    
-    var _registerElements = function(elements){
-        var i;
-        
-        for(i = 0; i < elements.length; i++){
-            _registerElement(elements[i]);
-        }
-    };
-    
-    var _registerElement = function(element){
-        _elements.push(element);
     };
     
     _construct.call(this, elementBinder, resolver);
-}
+};

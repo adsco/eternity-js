@@ -60,4 +60,4 @@ Eternity.Components.Output.Handler.ValueUpdater = function(domRepository){
     };
     
     _construct.call(this, domRepository);
-}
+};

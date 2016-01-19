@@ -1,5 +1,5 @@
 function getContainer(){
-    var container = new Container();
+    var container = new Eternity.Container.Container();
     
     addMockData(container);
     
@@ -16,11 +16,12 @@ function addMockData(container){
     return container;
 }
 
+var mock1Count = 0;
 function Mock1(){
     var _args = [];
     
     var _construct = function(){
-        
+        mock1Count++;
     };
     
     this.getArguments = function(){
@@ -82,6 +83,8 @@ QUnit.test('Container test', function(assert){
     assert.throws(function(){container.register()}, new Error('Name required'), 'Try to register class without name');
     assert.throws(function(){container.register('')}, new Error('Name required'), 'Try to register class with empty name');
     assert.throws(function(){container.register('  ')}, new Error('Name required'), 'Try to register class with name that contains only spaces');
+    assert.throws(function(){container.create('mock0');}, new Error('Class "mock0" is not registered'), 'Try to create class instance that has not been registered yet');
+    assert.throws(function(){container.create('mock5');}, new Error('Class "Mock5" is not found'), 'Try to create class instance with inexisting class name');
     
     assert.deepEqual(container.create('mock1').getArguments(), [], 'Create class instance with no arguments in constructor');
     assert.deepEqual(container.create('mock2').getArguments(), [new Mock3()], 'Create class instance with class as argument in constructor');
@@ -95,6 +98,11 @@ QUnit.test('Container test', function(assert){
         ],
         'Create class instance with mixed arguments in constructor'
     );
-    assert.throws(function(){container.create('mock0');}, new Error('Class "mock0" is not registered'), 'Try to create class instance that has not been registered yet');
-    assert.throws(function(){container.create('mock5');}, new Error('Class "Mock5" is not found'), 'Try to create class instance with inexisting class name');
+    
+    container.create('mock1');
+    container.create('mock1');
+    container.create('mock1');
+    
+    //2 since 1 Mock1 object created by hand
+    assert.equal(mock1Count, 2, 'Check number of Mock1 instances created');
 });

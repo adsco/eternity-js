@@ -5,7 +5,12 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
     /**
      * @type Handler
      */
-    var me = this;
+    var _me = this;
+    
+    /**
+     * @type String
+     */
+    var EVENT_TYPE = 'update-value';
     
     /**
      * @type DataProvider
@@ -69,7 +74,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
         _calculate(map);
         
         return {
-            type: 'update-value',
+            type: EVENT_TYPE,
             data: _result
         };
     };
@@ -85,7 +90,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
             result;
         
         if(map){
-            result = map.handler(me);
+            result = map.handler(_me);
             
             _appendResult(map.target, result);
             
@@ -107,7 +112,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      */
     var _calculate = function(map){
         if(map){
-            me.getValue(map.field);
+            _me.getValue(map.field);
             return true;
         }
         
@@ -135,8 +140,8 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
     var _clearResult = function(){
         _result = [];
         
-        return me;
+        return _me;
     };
     
     _construct.call(this, dataProvider, mapper, elementCrawler);
-}
+};

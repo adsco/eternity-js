@@ -84,4 +84,4 @@ Eternity.Helper.Mapper = function(){
         
         return map ? map.handler : null;
     };
-}
+};

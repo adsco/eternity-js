@@ -26,6 +26,12 @@ Eternity.Components.Input.Resolver.Resolver = function(resultResolver){
         return this;
     };
     
+    /**
+     * Handlers resolver
+     * 
+     * @param {Element} element - DOM element
+     * @param {Event} e - event triggered
+     */
     this.resolve = function(element, e){
         var result,
             handlers = _getHandlers(element, e),
@@ -40,6 +46,13 @@ Eternity.Components.Input.Resolver.Resolver = function(resultResolver){
         }
     };
     
+    /**
+     * Get list of handlers that can handle event triggered
+     * 
+     * @param {Element} element - DOM element
+     * @param {Event} e - event triggered
+     * @returns {Eternity.Components.Input.Handler.Handler[]}
+     */
     var _getHandlers = function(element, e){
         var handlers = [],
             i;
@@ -54,4 +67,4 @@ Eternity.Components.Input.Resolver.Resolver = function(resultResolver){
     };
     
     _construct.call(this, resultResolver);
-}
+};
