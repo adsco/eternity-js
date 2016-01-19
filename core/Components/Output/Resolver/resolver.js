@@ -13,7 +13,7 @@ Eternity.Components.Output.Resolver.Resolver = function(){
      * @param {ResultHandler} handler - handler to register
      * @returns {ResultResolver}
      */
-    this.addHandler = function(handler){
+    this.registerHandler = function(handler){
         _handlers.push(handler);
         
         return this;

@@ -80,7 +80,7 @@ QUnit.test('Testing system', function(assert){
     var resultHandler = getResultHandler(domRepository);
     
     resolver.registerHandler(handler);
-    resultResolver.addHandler(resultHandler);
+    resultResolver.registerHandler(resultHandler);
     
     prepareEnvironment();
     
