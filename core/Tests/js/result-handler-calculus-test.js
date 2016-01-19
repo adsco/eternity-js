@@ -1,9 +1,9 @@
-var value;
+var value = {};
 
 function getResultHandlerCalculus(){
     return new CalculusResultHandler({
-        update: function(){
-            value = 1;
+        getSingle: function(){
+            return value;
         }
     });
 }
@@ -30,5 +30,5 @@ QUnit.test('Result handler calculus', function(assert){
     
     result.type = 'update-value';
     handler.handle(result);
-    assert.equal(value, 1, 'Handle test');
+    assert.equal(value.value, 1, 'Handle test');
 });
