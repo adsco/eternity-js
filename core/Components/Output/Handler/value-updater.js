@@ -40,7 +40,7 @@ Eternity.Components.Output.Handler.ValueUpdater = function(domRepository){
     this.handle = function(result){
         var field,
             i;
-        
+    
         for(i = 0; i < result.data.length; i++){
             field = _domRepository.getSingle(result.data[i].field);
             if(field){

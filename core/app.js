@@ -64,7 +64,7 @@ Eternity.config = {
         {
             name: 'output.handler.value-updater',
             cls: 'Eternity.Components.Output.Handler.ValueUpdater',
-            arts: ['@dom.repository']
+            args: ['@dom.repository']
         }
     ],
     misc: [
