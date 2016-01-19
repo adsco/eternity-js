@@ -8,10 +8,11 @@ QUnit.test('Mapper test', function(assert){
             field: 'field1',
             handler: function(){
                 return 1;
-            }
+            },
+            target: 'field1'
         };
     
-    mapper.add(field.field, field.handler);
+    mapper.add(field.field, field.target, field.handler);
     
     assert.throws(
         function(){
@@ -25,5 +26,5 @@ QUnit.test('Mapper test', function(assert){
     assert.equal(mapper.isMapped('field2'), false, 'Test isMapped, should be false');
     assert.deepEqual(mapper.get('field1'), field, 'Test get field');
     assert.equal(mapper.getHandler('field1'), field.handler, 'Test get field handler');
-    assert.ok(mapper.add(field.field, field.handler, true), 'Add already mapped field, with true replace flag');
+    assert.ok(mapper.add(field.field, field.target, field.handler, true), 'Add already mapped field, with true replace flag');
 });
