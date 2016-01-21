@@ -53,10 +53,9 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      * @returns {Boolean}
      */
     this.supports = function(element, e){
-        var identifier = _elementCrawler.getAttribute(element, 'id'),
-            map = _mapper.get(identifier);
+        var identifier = _elementCrawler.getAttribute(element, 'id');
         
-        return map ? true : false;
+        return _mapper.isMapped(identifier);
     };
 
     /**
@@ -68,10 +67,14 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      */
     this.handle = function(element, e){
         var identifier = _elementCrawler.getAttribute(element, 'id'),
-            map = _mapper.get(identifier);
+            map = _mapper.getMap(identifier),
+            i;
         
         _clearResult();
-        _calculate(map);
+        
+        for(i = 0; i < map.length; i++){
+            _calculate(map[i], map[i].target);
+        }
         
         return {
             type: EVENT_TYPE,
@@ -86,7 +89,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      * @returns {String|Number}
      */
     this.getValue = function(field){
-        var map = _mapper.get(field),
+        var map = _mapper.getMapByTarget(field),
             result;
         
         if(map){
@@ -100,19 +103,15 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
         }
     };
     
-    this.getMyValue = function(field){
-        return _dataProvider.getValue(field);
-    };
-    
     /**
      * Chaining calculations initiator
      * 
      * @param {Map} map
      * @returns {Boolean}
      */
-    var _calculate = function(map){
+    var _calculate = function(map, identifier){
         if(map){
-            _me.getValue(map.field);
+            _me.getValue(identifier);
             return true;
         }
         
