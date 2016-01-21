@@ -6,7 +6,7 @@
  * 
  * @see trackable-factory.js
  */
-Eternity.Components.DOM.Observer = function(elementBinder, resolver){
+Eternity.Components.DOM.Observer = function(elementBinder, router){
     
     /**
      * @type ElementBinder
@@ -14,9 +14,9 @@ Eternity.Components.DOM.Observer = function(elementBinder, resolver){
     var _elementBinder = null;
     
     /**
-     * @type Resolver
+     * @type Router
      */
-    var _resolver = null;
+    var _router = null;
     
     /**
      * Internal event handler
@@ -25,7 +25,7 @@ Eternity.Components.DOM.Observer = function(elementBinder, resolver){
      */
     var _handle = function(e){
         //this - element that triggered event
-        _resolver.resolve(this, e);
+        _router.forward(this, e);
     };
     
     /**
@@ -34,9 +34,9 @@ Eternity.Components.DOM.Observer = function(elementBinder, resolver){
      * @param {Eternity.Components.DOM.Element.Binder} elementBinder - element event binder
      * @param {Eternity.Components.Input.Resolver.Resolver} resolver - handlers resolver
      */
-    var _construct = function(elementBinder, resolver){
+    var _construct = function(elementBinder, router){
         _elementBinder = elementBinder;
-        _resolver = resolver;
+        _router = router;
     };
     
     /**
@@ -53,5 +53,5 @@ Eternity.Components.DOM.Observer = function(elementBinder, resolver){
         }
     };
     
-    _construct.call(this, elementBinder, resolver);
+    _construct.call(this, elementBinder, router);
 };

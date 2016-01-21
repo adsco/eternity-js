@@ -1,19 +1,14 @@
 /**
  * Base input resolver
  */
-Eternity.Components.Input.Resolver.Resolver = function(resultResolver){
+Eternity.Components.Input.Resolver.Resolver = function(){
     /**
      * @type Handler[]
      */
     var _handlers = [];
     
-    /**
-     * @type Result
-     */
-    var _resultResolver = null;
-    
-    var _construct = function(resultResolver){
-        _resultResolver = resultResolver;
+    var _construct = function(){
+        
     };
     
     /**
@@ -29,27 +24,18 @@ Eternity.Components.Input.Resolver.Resolver = function(resultResolver){
     /**
      * Handlers resolver
      * 
-     * @param {Element} element - DOM element
+     * @param {Element} element - element
      * @param {Event} e - event triggered
+     * @return {Eternity.Components.Input.Handler.Handler}
      */
     this.resolve = function(element, e){
-        var result,
-            handlers = _getHandlers(element, e),
-            i;
-        
-        if(handlers.length){
-            for(i = 0; i < handlers.length; i++){
-                result = handlers[i].handle(element, e);
-            
-                _resultResolver.resolve(result);
-            }
-        }
+        return _getHandlers(element, e);
     };
     
     /**
      * Get list of handlers that can handle event triggered
      * 
-     * @param {Element} element - DOM element
+     * @param {Element} element - element
      * @param {Event} e - event triggered
      * @returns {Eternity.Components.Input.Handler.Handler[]}
      */
@@ -66,5 +52,5 @@ Eternity.Components.Input.Resolver.Resolver = function(resultResolver){
         return handlers;
     };
     
-    _construct.call(this, resultResolver);
+    _construct.call(this);
 };

@@ -5,14 +5,16 @@ Eternity.Core.Misc = {};
 Eternity.Components = {};
 Eternity.Components.DOM = {};
 Eternity.Components.DOM.Element = {};
-Eternity.Components.Provider = {};
 Eternity.Components.Input = {};
 Eternity.Components.Input.Resolver = {};
 Eternity.Components.Input.Handler = {};
 Eternity.Components.Output = {};
 Eternity.Components.Output.Resolver = {};
 Eternity.Components.Output.Handler = {};
+Eternity.Components.Provider = {};
+Eternity.Components.Router = {};
 Eternity.Container = {};
+Eternity.Factory = {};
 Eternity.Helper = {};
 
 Eternity.config = {
@@ -35,7 +37,7 @@ Eternity.config = {
         InputResolver: {
             name: 'input.resolver',
             cls: 'Eternity.Components.Input.Resolver.Resolver',
-            args: ['@output.resolver']
+            args: []
         },
         OutputResolver: {
             name: 'output.resolver',
@@ -45,12 +47,17 @@ Eternity.config = {
         DOMObserver: {
             name: 'dom.observer',
             cls: 'Eternity.Components.DOM.Observer',
-            args: ['@element.binder', '@input.resolver']
+            args: ['@element.binder', '@router.router']
         },
         DataProvider: {
             name: 'provider.data',
             cls: 'Eternity.Components.Provider.Data',
             args: ['@dom.repository', '@element.crawler']
+        },
+        Router: {
+            name: 'router.router',
+            cls: 'Eternity.Components.Router.Router',
+            args: ['@input.resolver', '@output.resolver']
         }
     },
     inputHandlers: [

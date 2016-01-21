@@ -25,12 +25,7 @@ Eternity.Components.Output.Resolver.Resolver = function(){
      * @param {Result} result - result object
      */
     this.resolve = function(result){
-        var handlers = _getHandlers(result),
-            i;
-        
-        for(i = 0; i < handlers.length; i++){
-            handlers[i].handle(result);
-        }
+        return _getHandlers(result);
     };
 
     /**
