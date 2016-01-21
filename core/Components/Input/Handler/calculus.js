@@ -32,6 +32,8 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      */
     var _result = [];
     
+    var _roots = [];
+    
     /**
      * Constructor
      * 
@@ -67,26 +69,20 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      */
     this.handle = function(element, e){
         var identifier = _elementCrawler.getAttribute(element, 'id'),
-            map = _mapper.getMap(identifier),
             i;
-        
-        _clearResult();
-        
-        for(i = 0; i < map.length; i++){
-            _calculate(map[i], map[i].target);
-        }
-        
-        return {
-            type: EVENT_TYPE,
-            data: _result
+
+        _defineRoots(identifier);
+        for(i = 0; i < _roots.length; i++){
+            _me.getValue(_roots[i]);
         };
+        
+        return _getResult();
     };
-    
     /**
-     * Get value method used in mapper
+     * Method used by mapper to get element's value
      * 
-     * @param {String} field - element identifier
-     * @returns {String|Number}
+     * @param {String} field - field whos value needs to be retrieved
+     * @returns {Integer}
      */
     this.getValue = function(field){
         var map = _mapper.getMapByTarget(field),
@@ -94,8 +90,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
         
         if(map){
             result = map.handler(_me);
-            
-            _appendResult(map.target, result);
+            _appendResult(field, result);
             
             return result;
         } else {
@@ -104,18 +99,31 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
     };
     
     /**
-     * Chaining calculations initiator
+     * Recursion entry point, will go down to root element whos value will be changed last
      * 
-     * @param {Map} map
-     * @returns {Boolean}
+     * @param {String} field - field that triggered event
      */
-    var _calculate = function(map, identifier){
-        if(map){
-            _me.getValue(identifier);
-            return true;
+    var _defineRoots = function(field){
+        _roots = [];
+        _getRoots(field);
+    };
+    
+    /**
+     * Go 1 level down of element tree
+     * 
+     * @param {String} field - field that triggered error
+     */
+    var _getRoots = function(field){
+        var targets = _mapper.getMapByInitiator(field),
+            i;
+    
+        if(targets.length){
+            for(i = 0; i < targets.length; i++){
+                _getRoots(targets[i].target);
+            }
+        } else {
+            _roots.push(field);
         }
-        
-        return false;
     };
     
     /**
@@ -132,14 +140,14 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
     };
     
     /**
-     * Clear _result
-     * 
-     * @returns {Calculus}
+     * Get accumulated result
+     * @returns {Eternity.Components.Input.Handler.Calculus._getResult.calculusAnonym$1}
      */
-    var _clearResult = function(){
-        _result = [];
-        
-        return _me;
+    var _getResult = function(){
+        return {
+            type: EVENT_TYPE,
+            data: _result
+        };
     };
     
     _construct.call(this, dataProvider, mapper, elementCrawler);

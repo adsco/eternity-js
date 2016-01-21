@@ -8,15 +8,26 @@
     <body>
         <section>
             <h3>Single dependency</h3>
-            <p>input2.value = input1.value * 2</p>
+            <p>input2 = input1 * 2</p>
             <input type="text" data-type="cell" id="input1-1" />
             <input type="text" data-type="cell" id="input1-2" />
         </section>
         <section>
             <h3>Linked dependency</h3>
             <p>
-                input1
+                input3 = input1 + input2<br/>
+                input4 = input3 * 2
             </p>
+            <table>
+                <tr>
+                    <td><input type="text" data-type="cell" id="input2-1" /></td>
+                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input2-3" /></td>
+                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input2-4" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" data-type="cell" id="input2-2" /></td>
+                </tr>
+            </table>
         </section>
         
         <script src="core/app.js"></script>

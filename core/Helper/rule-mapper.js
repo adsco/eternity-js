@@ -2,6 +2,8 @@
  * Calculus handler formula mapper
  */
 Eternity.Helper.RuleMapper = function(){
+    var _me = this;
+    
     /**
      * @type mixed[]
      */
@@ -33,6 +35,8 @@ Eternity.Helper.RuleMapper = function(){
         for(i = 0; i < fields.length; i++){
             _addMap(fields[i], target, handler);
         }
+        
+        return this;
     };
     
     /**
@@ -42,7 +46,7 @@ Eternity.Helper.RuleMapper = function(){
      * @param {String} field - field
      * @returns {Map|null} - field map or null
      */
-    this.getMap = function(field){
+    this.getMapByInitiator = function(field){
         return _getMap(field);
     };
     
@@ -87,13 +91,12 @@ Eternity.Helper.RuleMapper = function(){
      * @param {Function} handler - formula
      */
     var _addMap = function(field, target, handler){
-        var map = _getMap(field);
-    
-        if(null === map){
+        if(!_me.isMapped(field)){
             _createMap(field);
         }
         
         _map[field].push({
+            field: field,
             target: target,
             handler: handler
         });
@@ -103,10 +106,10 @@ Eternity.Helper.RuleMapper = function(){
      * Get map for a trigger field
      * 
      * @param {String} field
-     * @returns {Array|null}
+     * @returns {Array}
      */
     var _getMap = function(field){
-        return _map[field] || null;
+        return _map[field] || [];
     };
     
     /**
