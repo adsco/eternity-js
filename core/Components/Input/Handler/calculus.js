@@ -32,7 +32,12 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      */
     var _result = [];
     
+    /**
+     * @type String[]
+     */
     var _roots = [];
+    
+    var _blocker = null;
     
     /**
      * Constructor
@@ -71,13 +76,16 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
         var identifier = _elementCrawler.getAttribute(element, 'id'),
             i;
 
+        _result = [];
         _defineRoots(identifier);
+        _setBlocker(identifier);
         for(i = 0; i < _roots.length; i++){
             _me.getValue(_roots[i]);
         };
         
         return _getResult();
     };
+    
     /**
      * Method used by mapper to get element's value
      * 
@@ -88,7 +96,14 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
         var map = _mapper.getMapByTarget(field),
             result;
         
-        if(map){
+//        if(field == _blocker){
+//            console.log(map, field, _blocker);
+//        }
+//        
+        console.log(map, field);
+        
+        if(map && field != _blocker){
+            console.log(1);
             result = map.handler(_me);
             _appendResult(field, result);
             
@@ -148,6 +163,10 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
             type: EVENT_TYPE,
             data: _result
         };
+    };
+    
+    var _setBlocker = function(blocker){
+        _blocker = blocker;
     };
     
     _construct.call(this, dataProvider, mapper, elementCrawler);
