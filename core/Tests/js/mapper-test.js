@@ -1,30 +1,35 @@
 function getMapper(){
-    return new Eternity.Helper.Mapper();
+    return new Eternity.Helper.RuleMapper();
 }
 
 QUnit.test('Mapper test', function(assert){
     var mapper = getMapper(),
         field = {
-            field: 'field1',
+            fields: ['field1'],
+            target: 'field2',
             handler: function(){
                 return 1;
-            },
-            target: 'field1'
+            }
         };
     
-    mapper.add(field.field, field.target, field.handler);
+    mapper.map(field.fields, field.target, field.handler);
     
     assert.throws(
         function(){
-            mapper.add('field1', function(){});
+            mapper.map('field1', 'field2', function(){});
         },
-        new Error('Field "field1" already mapped, pass replace true flag if you want to replace formula'),
+        new Error('Argument fields must be an array of strings'),
+        'Pass string instead of array as 1-st argument'
+    );
+    assert.throws(
+        function(){
+            mapper.map(['field1'], 'field2', function(){});
+        },
+        new Error('Target field "field2" cannot have more than 1 formula'),
         'Add already mapped field, should throw error'
     );
     
     assert.equal(mapper.isMapped('field1'), true, 'Test isMapped, should be true');
     assert.equal(mapper.isMapped('field2'), false, 'Test isMapped, should be false');
-    assert.deepEqual(mapper.get('field1'), field, 'Test get field');
-    assert.equal(mapper.getHandler('field1'), field.handler, 'Test get field handler');
-    assert.ok(mapper.add(field.field, field.target, field.handler, true), 'Add already mapped field, with true replace flag');
+    assert.deepEqual(mapper.getMap('field1'), [{handler: field.handler, target: field.target}], 'Test get field');
 });

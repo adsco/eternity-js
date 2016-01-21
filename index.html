@@ -6,15 +6,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <input type="text" data-type="cell" id="input1" />
-        <input type="text" data-type="cell" id="input2" />
-        <input type="text" data-type="cell" id="input3" />
-        <input type="text" data-type="cell" id="input4" />
+        <section>
+            <h3>Single dependency</h3>
+            <p>input2.value = input1.value * 2</p>
+            <input type="text" data-type="cell" id="input1-1" />
+            <input type="text" data-type="cell" id="input1-2" />
+        </section>
+        <section>
+            <h3>Linked dependency</h3>
+            <p>
+                input1
+            </p>
+        </section>
         
         <script src="core/app.js"></script>
         <script src="core/Container/Container.js"></script>
         <script src="core/Components/Input/Handler/calculus.js"></script>
-        <script src="core/Helper/mapper.js"></script>
+        <script src="core/Helper/rule-mapper.js"></script>
         <script src="core/Helper/query-builder.js"></script>
         <script src="core/Components/Output/Handler/value-updater.js"></script>
         <script src="core/Components/Provider/data.js"></script>

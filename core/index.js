@@ -7,8 +7,8 @@ window.onload = function(){
         elements = domCrawler.getElements({tag: 'body'}, {tag: 'input', attributes: [{name: 'data-type', value: 'cell'}]}),
         mapper = eternityApp.getService('mapper');
 
-    mapper.add('input1', 'input2', function(handler){
-        return handler.getMyValue('input1') * 2;
+    mapper.map('input1-1', 'input1-2', function(handler){
+        return handler.getValue('input1-1') * 2;
     });
 
     eternityApp.observe(elements, ['keyup']);

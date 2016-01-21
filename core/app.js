@@ -77,7 +77,7 @@ Eternity.config = {
     misc: [
         {
             name: 'mapper',
-            cls: 'Eternity.Helper.Mapper',
+            cls: 'Eternity.Helper.RuleMapper',
             args: []
         },
         {
