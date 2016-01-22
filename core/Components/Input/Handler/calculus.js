@@ -96,14 +96,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
         var map = _mapper.getMapByTarget(field),
             result;
         
-//        if(field == _blocker){
-//            console.log(map, field, _blocker);
-//        }
-//        
-        console.log(map, field);
-        
         if(map && field != _blocker){
-            console.log(1);
             result = map.handler(_me);
             _appendResult(field, result);
             
