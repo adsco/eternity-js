@@ -8,25 +8,23 @@
     <body>
         <section>
             <h3>Single dependency</h3>
-            <p>input2 = input1 * 2</p>
+            <p></p>
             <input type="text" data-type="cell" id="input1-1" />
-            <input type="text" data-type="cell" id="input1-2" />
+            * 2 = <input type="text" data-type="cell" id="input1-2" />
         </section>
         <section>
             <h3>Linked dependency</h3>
             <p>
-                input3 = input1 + input2
-                <br/>
-                input4 = input3 * 2
+                
             </p>
             <table>
                 <tr>
-                    <td><input type="text" data-type="cell" id="input2-1" /></td>
-                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input2-3" /></td>
-                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input2-4" /></td>
+                    <td><input type="text" data-type="cell" id="input2-1" /> -</td>
+                    <td rowspan="2" valign="middle">+ = <input type="text" data-type="cell" id="input2-3" /></td>
+                    <td rowspan="2" valign="middle">* 2 <input type="text" data-type="cell" id="input2-4" /></td>
                 </tr>
                 <tr>
-                    <td><input type="text" data-type="cell" id="input2-2" /></td>
+                    <td><input type="text" data-type="cell" id="input2-2" /> -</td>
                 </tr>
             </table>
         </section>
@@ -34,35 +32,54 @@
             <h3>Complex linked dependency</h3>
             <table>
                 <tr>
-                    <td><input type="text" data-type="cell" id="input3-1" /></td>
-                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input3-9" /></td>
-                    <td rowspan="4" valign="middle"><input type="text" data-type="cell" id="input3-13" /></td>
-                    <td rowspan="8" valign="middle"><input type="text" data-type="cell" id="input3-15" /></td>
+                    <td><input type="text" data-type="cell" id="input3-1" /> -</td>
+                    <td rowspan="2" valign="middle">+ = <input type="text" data-type="cell" id="input3-9" /> -</td>
+                    <td rowspan="4" valign="middle">+ = <input type="text" data-type="cell" id="input3-13" /> -</td>
+                    <td rowspan="8" valign="middle">+ = <input type="text" data-type="cell" id="input3-15" /></td>
                 </tr>
                 <tr>
-                    <td valign="middle"><input type="text" data-type="cell" id="input3-2" /></td>
+                    <td valign="middle"><input type="text" data-type="cell" id="input3-2" /> -</td>
                 </tr>
                 <tr>
-                    <td valign="middle"><input type="text" data-type="cell" id="input3-3" /></td>
-                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input3-10" /></td>
+                    <td valign="middle"><input type="text" data-type="cell" id="input3-3" /> -</td>
+                    <td rowspan="2" valign="middle">+ = <input type="text" data-type="cell" id="input3-10" /> -</td>
                 </tr>
                 <tr>
-                    <td valign="middle"><input type="text" data-type="cell" id="input3-4" /></td>
+                    <td valign="middle"><input type="text" data-type="cell" id="input3-4" /> -</td>
                 </tr>
                 <tr>
-                    <td valign="middle"><input type="text" data-type="cell" id="input3-5" /></td>
-                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input3-11" /></td>
-                    <td rowspan="4" valign="middle"><input type="text" data-type="cell" id="input3-14" /></td>
+                    <td valign="middle"><input type="text" data-type="cell" id="input3-5" /> -</td>
+                    <td rowspan="2" valign="middle">+ = <input type="text" data-type="cell" id="input3-11" /> -</td>
+                    <td rowspan="4" valign="middle">+ = <input type="text" data-type="cell" id="input3-14" /> -</td>
                 </tr>
                 <tr>
-                    <td valign="middle"><input type="text" data-type="cell" id="input3-6" /></td>
+                    <td valign="middle"><input type="text" data-type="cell" id="input3-6" /> -</td>
                 </tr>
                 <tr>
-                    <td valign="middle"><input type="text" data-type="cell" id="input3-7" /></td>
-                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input3-12" /></td>
+                    <td valign="middle"><input type="text" data-type="cell" id="input3-7" /> -</td>
+                    <td rowspan="2" valign="middle">+ = <input type="text" data-type="cell" id="input3-12" /> -</td>
                 </tr>
                 <tr>
-                    <td valign="middle"><input type="text" data-type="cell" id="input3-8" /></td>
+                    <td valign="middle"><input type="text" data-type="cell" id="input3-8" /> -</td>
+                </tr>
+            </table>
+        </section>
+        <section>
+            <h3>Root to values dependency</h3>
+            <table>
+                <tr>
+                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input4-1" /></td>
+                    <td>* 2 = <input type="text" data-type="cell" id="input4-2" /></td>
+                </tr>
+                <tr>
+                    <td>+ 2 = <input type="text" data-type="cell" id="input4-3" /></td>
+                </tr>
+                <tr>
+                    <td rowspan="2" valign="middle"><input type="text" data-type="cell" id="input4-4" /></td>
+                    <td>* 3 = <input type="text" data-type="cell" id="input4-5" /></td>
+                </tr>
+                <tr>
+                    <td>+ 4 = <input type="text" data-type="cell" id="input4-6" /></td>
                 </tr>
             </table>
         </section>

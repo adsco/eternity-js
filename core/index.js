@@ -45,6 +45,23 @@ function mapSection3(mapper){
     ;
 }
 
+function mapSection4(mapper){
+    mapper
+        .map(['input4-1'], 'input4-2', function(handler){
+            return handler.getValue('input4-1') * 2;
+        })
+        .map(['input4-1'], 'input4-3', function(handler){
+            return handler.getValue('input4-1') + 2;
+        })
+        .map(['input4-4'], 'input4-5', function(handler){
+            return handler.getValue('input4-4') * 3;
+        })
+        .map(['input4-4'], 'input4-6', function(handler){
+            return handler.getValue('input4-4') + 4;
+        })
+    ;
+}
+
 window.onload = function(){
     var domCrawler = eternityApp.getService('dom.crawler'),
         elements = domCrawler.getElements({tag: 'body'}, {tag: 'input', attributes: [{name: 'data-type', value: 'cell'}]}),
@@ -53,6 +70,7 @@ window.onload = function(){
     mapSection1(mapper);
     mapSection2(mapper);
     mapSection3(mapper);
+    mapSection4(mapper);
 
     eternityApp.observe(elements, ['keyup']);
 };
