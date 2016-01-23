@@ -41,8 +41,8 @@ Eternity.Components.Provider.Data = function(domRepository, elementCrawler){
         if(!element){
             throw new Error('Element with identifier "' + identifier + '" is not found');
         }
-
-        return parseInt(element.value);
+        
+        return parseInt(element.value == '' ? 0 : element.value);
     };
     
     _construct.call(this, domRepository, elementCrawler);

@@ -86,7 +86,6 @@ Eternity.Components.DOM.Repository = function(){
      * element id already used by another element
      */
     var _addElement = function(element){
-        console.log(element);
         if('undefined' === typeof element.id){
             throw new Error('Missing id property for element');
         }

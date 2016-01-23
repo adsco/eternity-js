@@ -24,7 +24,7 @@ function mapSection3(mapper){
         .map(['input3-1', 'input3-2'], 'input3-9', function(handler){
             return handler.getValue('input3-1') + handler.getValue('input3-2');
         })
-        .map(['input-3-3', 'input3-4'], 'input3-10', function(handler){
+        .map(['input3-3', 'input3-4'], 'input3-10', function(handler){
             return handler.getValue('input3-3') + handler.getValue('input3-4');
         })
         .map(['input3-5', 'input3-6'], 'input3-11', function(handler){

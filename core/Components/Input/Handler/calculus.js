@@ -35,12 +35,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
     /**
      * @type String[]
      */
-    var _roots = [];
-    
-    /**
-     * @type String
-     */
-    var _blocker = null;
+    var _nodes = [];
     
     /**
      * Constructor
@@ -76,47 +71,42 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      * @returns {Result}
      */
     this.handle = function(element, e){
-        var identifier = _elementCrawler.getAttribute(element, 'id'),
-            i;
+        var identifier = _elementCrawler.getAttribute(element, 'id');
 
-        _result = [];
-        _defineRoots(identifier);
-        _setBlocker(identifier);
-        for(i = 0; i < _roots.length; i++){
-            _me.getValue(_roots[i]);
-        };
+        //reset all runtime variables
+        _reset();
+        //build formula execution stack
+        _stackExecutionPath(identifier);
+        //execute stacked formulas
+        _calculate();
         
         return _getResult();
     };
     
     /**
-     * Method used by mapper to get element's value
+     * Method used by mapper to get element's value,
+     * if cached value for the requested field exists, cached value will be returned
      * 
      * @param {String} field - field whos value needs to be retrieved
      * @returns {Integer}
      */
     this.getValue = function(field){
-        var map = _mapper.getMapByTarget(field),
-            result;
+        var result = _getFieldResult(field);
         
-        if(map && field != _blocker){
-            result = map.handler(_me);
-            _appendResult(field, result);
-            
-            return result;
+        if(result){
+            return result.value;
         } else {
             return _dataProvider.getValue(field);
         }
     };
     
     /**
-     * Recursion entry point, will go down to root element whos value will be changed last
+     * Nodes whos value must be recalculated
      * 
      * @param {String} field - field that triggered event
      */
-    var _defineRoots = function(field){
-        _roots = [];
-        _getRoots(field);
+    var _stackExecutionPath = function(field){
+        _getNodes(field);
     };
     
     /**
@@ -124,16 +114,15 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      * 
      * @param {String} field - field that triggered error
      */
-    var _getRoots = function(field){
+    var _getNodes = function(field){
         var targets = _mapper.getMapByInitiator(field),
             i;
     
         if(targets.length){
             for(i = 0; i < targets.length; i++){
-                _getRoots(targets[i].target);
+                _nodes.push(targets[i].target);
+                _getNodes(targets[i].target);
             }
-        } else {
-            _roots.push(field);
         }
     };
     
@@ -161,8 +150,44 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
         };
     };
     
-    var _setBlocker = function(blocker){
-        _blocker = blocker;
+    /**
+     * Get calculated value of field
+     * 
+     * @param {String} field - field identifier
+     * @returns {Object|null} - result object or null if value for the requested field
+     * has not been calculated
+     */
+    var _getFieldResult = function(field){
+        var i;
+        
+        for(i = 0; i < _result.length; i++){
+            if(_result[i].field == field){
+                return _result[i];
+            }
+        }
+        
+        return null;
+    };
+    
+    /**
+     * Execute calculation of stacked nodes
+     */
+    var _calculate = function(){
+        var map,
+            i;
+        
+        for(i = 0; i < _nodes.length; i++){
+            map = _mapper.getMapByTarget(_nodes[i]);
+            _appendResult(_nodes[i], map.handler(_me));
+        };
+    };
+    
+    /**
+     * Reset all recent data stored
+     */
+    var _reset = function(){
+        _nodes = [];
+        _result = [];
     };
     
     _construct.call(this, dataProvider, mapper, elementCrawler);
