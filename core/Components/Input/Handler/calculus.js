@@ -65,6 +65,9 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
 
     /**
      * Implementation of HandlerBase.handle, @see handler/handler-base.js
+     * Logic: stack list of all nodes whos values need to be recalculated
+     * then perform up down calculations, caching intermadiate calculation
+     * result.
      * 
      * @param {Element} element - field that triggered event
      * @param {Event} e - event triggered
