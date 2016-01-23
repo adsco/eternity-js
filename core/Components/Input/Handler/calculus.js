@@ -37,6 +37,9 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      */
     var _roots = [];
     
+    /**
+     * @type String
+     */
     var _blocker = null;
     
     /**
