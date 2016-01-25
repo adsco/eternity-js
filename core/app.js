@@ -3,6 +3,7 @@ Eternity.Core = {};
 Eternity.Core.Handlers = {};
 Eternity.Core.Misc = {};
 Eternity.Components = {};
+Eternity.Components.Converter = {};
 Eternity.Components.DOM = {};
 Eternity.Components.DOM.Element = {};
 Eternity.Components.Input = {};
