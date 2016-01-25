@@ -7,7 +7,6 @@
  * @see trackable-factory.js
  */
 Eternity.Components.DOM.Observer = function(elementBinder, router){
-    
     /**
      * @type ElementBinder
      */
@@ -32,7 +31,7 @@ Eternity.Components.DOM.Observer = function(elementBinder, router){
      * Constructor
      * 
      * @param {Eternity.Components.DOM.Element.Binder} elementBinder - element event binder
-     * @param {Eternity.Components.Input.Resolver.Resolver} resolver - handlers resolver
+     * @param {Eternity.Components.Router.Router} router - handlers resolver
      */
     var _construct = function(elementBinder, router){
         _elementBinder = elementBinder;
@@ -43,7 +42,6 @@ Eternity.Components.DOM.Observer = function(elementBinder, router){
      * 
      * @param {type} elements
      * @param {type} events
-     * @returns {undefined}
      */
     this.observe = function(elements, events){
         var i;
