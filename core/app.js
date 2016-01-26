@@ -65,7 +65,7 @@ Eternity.config = {
         {
             name: 'input.handler.calculus',
             cls: 'Eternity.Components.Input.Handler.Calculus',
-            args: ['@provider.data', '@mapper', '@element.crawler']
+            args: ['@provider.data', '@mapper', '@element.crawler', 'handle']
         }
     ],
     outputHandlers: [

@@ -1,7 +1,7 @@
 /**
  * Calculus handler
  */
-Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elementCrawler){
+Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elementCrawler, type){
     /**
      * @type Handler
      */
@@ -11,6 +11,11 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      * @type String
      */
     var EVENT_TYPE = 'update-value';
+    
+    /**
+     * @type String
+     */
+    var _type = null;
     
     /**
      * @type DataProvider
@@ -43,11 +48,22 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      * @param {DataProvider} dataProvider - data provider
      * @param {Mapper} mapper - mapper
      * @param {ElementCrawler} elementCrawler - element crawler
+     * @param {String} type - subscription type
      */
-    var _construct = function(dataProvider, mapper, elementCrawler){
+    var _construct = function(dataProvider, mapper, elementCrawler, type){
         _dataProvider = dataProvider;
         _mapper = mapper;
         _elementCrawler = elementCrawler;
+        _type = type;
+    };
+    
+    /**
+     * Get subscription type
+     * 
+     * @returns {String}
+     */
+    this.getSubscription = function(){
+        return _type;
     };
     
     /**
@@ -78,8 +94,8 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
 
         //reset all runtime variables
         _reset();
-        //build formula execution stack
-        _stackExecutionPath(identifier);
+        //build execution queue
+        _buildExecutionQueue(identifier);
         //execute stacked formulas
         _calculate();
         
@@ -108,7 +124,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      * 
      * @param {String} field - field that triggered event
      */
-    var _stackExecutionPath = function(field){
+    var _buildExecutionQueue = function(field){
         _getNodes(field);
     };
     
@@ -193,5 +209,5 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
         _result = [];
     };
     
-    _construct.call(this, dataProvider, mapper, elementCrawler);
+    _construct.call(this, dataProvider, mapper, elementCrawler, type);
 };

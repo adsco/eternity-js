@@ -18,9 +18,19 @@ Eternity.Components.Input.Handler.Handler = function(){
      * 
      * @param {Element} element - DOM element
      * @param {Event} e - DOM event
+     * @param {String} type - handler type
      * @returns {Eternity.Factory.Result}
      */
-    this.handle = function(element, e){
+    this.handle = function(element, e, type){
+        
+    };
+    
+    /**
+     * Get handler type @see Eternity.Components.Input.Handler.Types
+     * 
+     * @returns {String}
+     */
+    this.getSubscription = function(){
         
     };
 };
