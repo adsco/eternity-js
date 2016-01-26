@@ -1,7 +1,7 @@
 /**
  * Calculus handler
  */
-Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elementCrawler, type){
+Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawler, mapper, type){
     /**
      * @type Handler
      */
@@ -50,7 +50,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
      * @param {ElementCrawler} elementCrawler - element crawler
      * @param {String} type - subscription type
      */
-    var _construct = function(dataProvider, mapper, elementCrawler, type){
+    var _construct = function(dataProvider, elementCrawler, mapper, type){
         _dataProvider = dataProvider;
         _mapper = mapper;
         _elementCrawler = elementCrawler;
@@ -209,5 +209,5 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, mapper, elem
         _result = [];
     };
     
-    _construct.call(this, dataProvider, mapper, elementCrawler, type);
+    _construct.call(this, dataProvider, elementCrawler, mapper, type);
 };
