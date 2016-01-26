@@ -67,21 +67,7 @@ function prepareEnvironment(){
 }
 
 QUnit.test('Testing system', function(assert){
-    var qb = getQueryBuilder();
-    var domCrawler = getDOMCrawler(qb);
-    var domRepository = getDOMRepository();
-    var elementBinder = getElementBinder();
-    var elementCrawler = getElementCrawler();
-    var resultResolver = getResultResolver();
-    var resolver = getResolver(resultResolver);
-    var domObserver = getDOMObserver(elementBinder, resolver);
-    var dataProvider = getDataProvider(domRepository, elementCrawler);
-    var handler = getHandler(dataProvider, elementCrawler);
-    var resultHandler = getResultHandler(domRepository);
-    
-    resolver.registerHandler(handler);
-    resultResolver.registerHandler(resultHandler);
-    
+    var app = new Eternity.App();    
     prepareEnvironment();
     
 //    var elements = Array.prototype.slice.call(domCrawler.getElements({tag: 'body'}, {tag: 'input', attributes: [{name: 'data-type', value: 'cell'}]}), 0);
