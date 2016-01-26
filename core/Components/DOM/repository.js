@@ -3,6 +3,11 @@
  */
 Eternity.Components.DOM.Repository = function(){
     /**
+     * @type Eternity.Components.DOM.Repository
+     */
+    var _me = this;
+    
+    /**
      * @type Array
      */
     var _elements = [];
@@ -62,6 +67,20 @@ Eternity.Components.DOM.Repository = function(){
         }
         
         return null;
+    };
+    
+    /**
+     * DOM element value updater
+     * 
+     * @param {String} id - element identifier
+     * @param {mixed} value - value to set
+     */
+    this.setValue = function(id, value){
+        var el = _me.getSingle(id);
+        
+        if(el){
+            el.value = value;
+        }
     };
     
     /**
