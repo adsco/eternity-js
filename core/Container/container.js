@@ -27,7 +27,7 @@ Eternity.Container.Container = function(){
      */
     this.register = function(name, className, args){
         if(!name || name.trim().length < 1){
-            throw new Error('Name required, given arguments are: ' + name + ', ' + className + ', ' + args.join(', '));
+            throw new Error('Name required, given arguments are: "' + name + '", "' + className + '", [' + (args && args.length ? args.join(', ') : 'no arguments') + ']');
         }
         
         if(_getConfig(name)){

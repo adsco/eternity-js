@@ -80,9 +80,9 @@ QUnit.test('Container test', function(assert){
     var container = getContainer();
     
     assert.throws(function(){container.register('mock1');}, new Error('Name "mock1" already reserved'), 'Register new class using already registered name');
-    assert.throws(function(){container.register()}, new Error('Name required'), 'Try to register class without name');
-    assert.throws(function(){container.register('')}, new Error('Name required'), 'Try to register class with empty name');
-    assert.throws(function(){container.register('  ')}, new Error('Name required'), 'Try to register class with name that contains only spaces');
+    assert.throws(function(){container.register()}, new Error('Name required, given arguments are: "undefined", "undefined", [no arguments]'), 'Try to register class without name');
+    assert.throws(function(){container.register('')}, new Error('Name required, given arguments are: "", "undefined", [no arguments]'), 'Try to register class with empty name');
+    assert.throws(function(){container.register('  ')}, new Error('Name required, given arguments are: "  ", "undefined", [no arguments]'), 'Try to register class with name that contains only spaces');
     assert.throws(function(){container.create('mock0');}, new Error('Class "mock0" is not registered'), 'Try to create class instance that has not been registered yet');
     assert.throws(function(){container.create('mock5');}, new Error('Class "Mock5" is not found'), 'Try to create class instance with inexisting class name');
     
