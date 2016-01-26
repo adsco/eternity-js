@@ -4,7 +4,6 @@
  * 
  * @param {type} inputResolver
  * @param {type} outputResolver
- * @returns {undefined}
  */
 Eternity.Components.Router.Router = function(inputResolver, outputResolver){
     var _events = [
@@ -53,6 +52,7 @@ Eternity.Components.Router.Router = function(inputResolver, outputResolver){
     
     /**
      * Get handlers subscribed for given event
+     * @todo reduce, filtering by subscription, overhead
      * 
      * @param {Element} element - element that triggered event
      * @param {Event} e - triggered event
@@ -76,6 +76,7 @@ Eternity.Components.Router.Router = function(inputResolver, outputResolver){
     /**
      * Handle input
      * 
+     * @param {Eternity.Components.Input.Handler.Handler[]} handlers - handler
      * @param {Element} element - element
      * @param {Event} e - event
      */
