@@ -62,15 +62,29 @@ function mapSection4(mapper){
     ;
 }
 
+function addSection1Constraints(vMapper){
+    vMapper
+        .add('input1-1', function(dataProvider){
+            return dataProvider.getValue('input1-1') > 55;
+        }, 'This value should be greater than 55')
+        .add('input1-2', function(dataProvider){
+            return dataProvider.getValue('input1-2') < 200;
+        }, 'This value should be less than 200')
+    ;
+}
+
 window.onload = function(){
     var domCrawler = eternityApp.getService('dom.crawler'),
         elements = domCrawler.getElements({tag: 'body'}, {tag: 'input', attributes: [{name: 'data-type', value: 'cell'}]}),
-        mapper = eternityApp.getService('mapper');
+        mapper = eternityApp.getService('mapper'),
+        vMapper = eternityApp.getService('helper.validation');
 
     mapSection1(mapper);
     mapSection2(mapper);
     mapSection3(mapper);
     mapSection4(mapper);
+
+    addSection1Constraints(vMapper);
 
     eternityApp.observe(elements, ['keyup']);
 };

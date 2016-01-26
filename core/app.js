@@ -66,12 +66,22 @@ Eternity.config = {
             name: 'input.handler.calculus',
             cls: 'Eternity.Components.Input.Handler.Calculus',
             args: ['@provider.data', '@element.crawler', '@mapper', 'handle']
+        },
+        {
+            name: 'input.handler.validator',
+            cls: 'Eternity.Components.Input.Handler.Validator',
+            args: ['@provider.data', '@element.crawler', '@helper.validation', '@dom.repository', 'post-handle']
         }
     ],
     outputHandlers: [
         {
             name: 'output.handler.value-updater',
             cls: 'Eternity.Components.Output.Handler.ValueUpdater',
+            args: ['@dom.repository']
+        },
+        {
+            name: 'output.handler.validator',
+            cls: 'Eternity.Components.Output.Handler.Validator',
             args: ['@dom.repository']
         }
     ],
@@ -90,6 +100,11 @@ Eternity.config = {
             name: 'dom.crawler',
             cls: 'Eternity.Components.DOM.Crawler',
             args: ['@query-builder']
+        },
+        {
+            name: 'helper.validation',
+            cls: 'Eternity.Helper.ValidationMapper',
+            args: []
         }
     ]
 };
@@ -120,7 +135,7 @@ Eternity.App = function(){
     /**
      * Proxy method for DOMObserver.observe
      * 
-     * @param {Elementp[]} elements - elements to observe
+     * @param {Element[]} elements - elements to observe
      * @param {String[]} events - events to observe
      * @returns {Eternity.App}
      */
