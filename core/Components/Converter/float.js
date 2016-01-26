@@ -107,8 +107,6 @@ Eternity.Components.Converter.Float = function(){
         
         localizer = _getLocale(locale);
         
-        console.log(floatString, localizer, locale);
-        
         return floatString.replace(localizer.from, localizer.to);
     };
     
