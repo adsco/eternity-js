@@ -42,10 +42,7 @@ Eternity.Components.Output.Handler.ValueUpdater = function(domRepository){
             i;
     
         for(i = 0; i < result.data.length; i++){
-            field = _domRepository.getSingle(result.data[i].field);
-            if(field){
-                field.value = _decorate(result.data[i].value);
-            }
+            field = _domRepository.setValue(result.data[i].field, result.data[i].value);
         }
     };
     
