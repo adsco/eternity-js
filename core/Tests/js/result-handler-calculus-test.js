@@ -4,6 +4,9 @@ function getResultHandlerCalculus(){
     return new Eternity.Components.Output.Handler.ValueUpdater({
         getSingle: function(){
             return value;
+        },
+        setValue: function(){
+            value.value = 1;
         }
     });
 }

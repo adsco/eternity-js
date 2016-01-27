@@ -67,7 +67,7 @@ function prepareEnvironment(){
 }
 
 QUnit.test('Testing system', function(assert){
-    var app = new Eternity.App();    
+    var app = new Eternity.App();
     prepareEnvironment();
     
 //    var elements = Array.prototype.slice.call(domCrawler.getElements({tag: 'body'}, {tag: 'input', attributes: [{name: 'data-type', value: 'cell'}]}), 0);

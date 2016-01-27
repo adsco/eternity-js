@@ -6,6 +6,12 @@ function getHandler(){
                 return 125;
             }
         },
+        //element crawler
+        {
+            getAttribute: function(element, attribute){
+                return element;
+            }
+        },
         //mapper
         {
             isMapped: function(){
@@ -32,12 +38,6 @@ function getHandler(){
                         return 125;
                     }
                 };
-            }
-        },
-        //element crawler
-        {
-            getAttribute: function(element, attribute){
-                return element;
             }
         }
     );
