@@ -27,9 +27,16 @@ function getElement(){
 
 QUnit.test('Resolver test', function(assert){
     var resolver = getResolver(),
-        handler = getHandler(),
+        handler1 = getHandler(),
+        handler2 = getHandler(),
+        handler3 = getHandler(),
         element = getElement();
     
-    resolver.registerHandler(handler);
-    assert.deepEqual(resolver.resolve(element, new Event('click')), [handler], 'Resolve result');
+    resolver.registerHandler(handler1, 1);
+    
+    assert.deepEqual(resolver.resolve(element, new Event('click')), [handler1], 'Resolve result');
+       
+    resolver.registerHandler(handler2, 3);
+    resolver.registerHandler(handler3, 2);
+    assert.deepEqual(resolver.resolve(element, new Event('click')), [handler1, handler3, handler2], 'Resolve result, sorted by priority');
 });

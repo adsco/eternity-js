@@ -2,10 +2,20 @@
  * Base input resolver
  */
 Eternity.Components.Input.Resolver.Resolver = function(){
+    var _me = this;
+    
     /**
      * @type Handler[]
      */
     var _handlers = [];
+    
+    var _sortFn = function(a, b){
+        if(a.priority === b.priority){
+            return 0;
+        } else {
+            return a.priority > b.priority ? 1 : -1;
+        }
+    };
     
     /**
      * Constructor
@@ -17,9 +27,15 @@ Eternity.Components.Input.Resolver.Resolver = function(){
     /**
      * Add new handler
      * @param {Eternity.Components.Input.Handler.Handler} handler
+     * @param {mixed} priority - priority of handler, lower - lower index
      */
-    this.registerHandler = function(handler){
-        _handlers.push(handler);
+    this.registerHandler = function(handler, priority){
+        _handlers.push({
+            handler: handler,
+            priority: _getPriority(priority)
+        });
+        
+        _sortHandlers();
         
         return this;
     };
@@ -48,12 +64,35 @@ Eternity.Components.Input.Resolver.Resolver = function(){
             i;
         
         for(i = 0; i < _handlers.length; i++){
-            if(_handlers[i].supports(element, e)){
-                handlers.push(_handlers[i]);
+            if(_handlers[i].handler.supports(element, e)){
+                handlers.push(_handlers[i].handler);
             }
         }
         
         return handlers;
+    };
+    
+    /**
+     * Get safe priority value
+     * 
+     * @param {mixed} priority - priority to make safe
+     * @returns {Number}
+     */
+    var _getPriority = function(priority){
+        var intPriority = parseInt(priority);
+        
+        if(isNaN(intPriority)){
+            return 0;
+        }
+        
+        return intPriority;
+    };
+    
+    /**
+     * Sort handlers by priority level
+     */
+    var _sortHandlers = function(){
+        _handlers.sort(_sortFn);
     };
     
     _construct.call(this);
