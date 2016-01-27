@@ -1,7 +1,7 @@
 /**
  * Validation result: {success: '', message: ''}
  */
-Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCrawler, validation, domRepository, type){
+Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCrawler, validation, domRepository){
     var EVENT_TYPE = 'validation-check';
     
     var _validation = null;
@@ -12,16 +12,13 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
     
     var _domRepository = null;
     
-    var _type = null;
-    
     var _result = [];
     
-    var _construct = function(dataProvider, elementCrawler, validation, domRepository, type){
+    var _construct = function(dataProvider, elementCrawler, validation, domRepository){
         _dataProvider = dataProvider;
         _elementCrawler = elementCrawler;
         _validation = validation;
         _domRepository = domRepository;
-        _type = type;
     };
     
     this.supports = function(element, e){
@@ -50,10 +47,6 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
         _domRepository.clearLog();
         
         return _getResult();
-    };
-    
-    this.getSubscription = function(){
-        return _type;
     };
     
     var _validate = function(fields){
@@ -94,5 +87,5 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
         };
     };
     
-    _construct.call(this, dataProvider, elementCrawler, validation, domRepository, type);
+    _construct.call(this, dataProvider, elementCrawler, validation, domRepository);
 };

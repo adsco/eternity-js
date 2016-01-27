@@ -24,13 +24,4 @@ Eternity.Components.Input.Handler.Handler = function(){
     this.handle = function(element, e, type){
         
     };
-    
-    /**
-     * Get handler type @see Eternity.Components.Input.Handler.Types
-     * 
-     * @returns {String}
-     */
-    this.getSubscription = function(){
-        
-    };
 };
