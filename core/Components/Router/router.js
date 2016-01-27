@@ -6,12 +6,6 @@
  * @param {type} outputResolver
  */
 Eternity.Components.Router.Router = function(inputResolver, outputResolver){
-    var _events = [
-        Eternity.Components.Input.Handler.Types.PRE_HANDLE,
-        Eternity.Components.Input.Handler.Types.HANDLE,
-        Eternity.Components.Input.Handler.Types.POST_HANDLE
-    ];
-    
     /**
      * @type Eternity.Components.Input.Resolver.Resolver
      */
@@ -40,14 +34,7 @@ Eternity.Components.Router.Router = function(inputResolver, outputResolver){
      * @param {Event} e - event
      */
     this.forward = function(element, e){
-        var handlers,
-            i;
-    
-        for(i = 0; i < _events.length; i++){
-            handlers = _getHandlersBySubscription(element, e, _events[i]);
-            
-            _handleInput(handlers, element, e);
-        }
+        _handleInput(_getHandlers(element, e), element, e);
     };
     
     /**
@@ -56,21 +43,10 @@ Eternity.Components.Router.Router = function(inputResolver, outputResolver){
      * 
      * @param {Element} element - element that triggered event
      * @param {Event} e - triggered event
-     * @param {String} event - router event
      * @returns {Eternity.Components.Handler.Handler[]}
      */
-    var _getHandlersBySubscription = function(element, e, event){
-        var handlers = _inputResolver.resolve(element, e),
-            subHandlers = [],
-            i;
-    
-        for(i = 0; i < handlers.length; i++){
-            if(handlers[i].getSubscription() === event){
-                subHandlers.push(handlers[i]);
-            }
-        }
-        
-        return subHandlers;
+    var _getHandlers = function(element, e){
+        return _inputResolver.resolve(element, e);
     };
     
     /**
