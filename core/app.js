@@ -65,12 +65,14 @@ Eternity.config = {
         {
             name: 'input.handler.calculus',
             cls: 'Eternity.Components.Input.Handler.Calculus',
-            args: ['@provider.data', '@element.crawler', '@mapper', 'handle']
+            args: ['@provider.data', '@element.crawler', '@mapper'],
+            tags: {priority: 0}
         },
         {
             name: 'input.handler.validator',
             cls: 'Eternity.Components.Input.Handler.Validator',
-            args: ['@provider.data', '@element.crawler', '@helper.validation', '@dom.repository', 'post-handle']
+            args: ['@provider.data', '@element.crawler', '@helper.validation', '@dom.repository'],
+            tags: {priority: 100}
         }
     ],
     outputHandlers: [
@@ -227,10 +229,20 @@ Eternity.App = function(){
      * @param {JSON[]} items - input handlers config
      */
     var _createInputHandlers = function(items){
-        var i;
+        var tags,
+            priority,
+            i;
         
         for(i = 0; i < items.length; i++){
-            _core.InputResolver.registerHandler(_container.create(items[i].name));
+            tags = items[i].tags;
+            
+            if(tags.hasOwnProperty('priority')){
+                priority = tags.priority;
+            } else {
+                priority = 0;
+            }
+            
+            _core.InputResolver.registerHandler(_container.create(items[i].name), priority);
         }
     };
     
