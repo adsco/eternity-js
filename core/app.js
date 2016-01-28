@@ -21,10 +21,15 @@ Eternity.Helper = {};
 
 Eternity.config = {
     core: {
+        EventManager: {
+            name: 'event-manager',
+            cls: 'Eternity.Components.EventManager.EventManager',
+            args: []
+        },
         DOMRepository: {
             name: 'dom.repository',
             cls: 'Eternity.Components.DOM.Repository',
-            args: []
+            args: ['observer.event-captured']
         },
         ElementCrawler: {
             name: 'element.crawler',
@@ -49,7 +54,7 @@ Eternity.config = {
         DOMObserver: {
             name: 'dom.observer',
             cls: 'Eternity.Components.DOM.Observer',
-            args: ['@element.binder', '@router.router']
+            args: ['@element.binder', '@router.router', '@event-manager']
         },
         DataProvider: {
             name: 'provider.data',
@@ -113,6 +118,8 @@ Eternity.config = {
 };
 
 Eternity.App = function(){
+    var _me = this;
+    
     /**
      * @type Eternity.Container.Container
      */
@@ -217,10 +224,56 @@ Eternity.App = function(){
      * @param {JSON} config
      */
     var _createCoreComponents = function(config){
-        var key;
+        var eventManager = _container.create('event-manager'),
+            key;
         
         for(key in config){
             _core[key] = _container.create(config[key].name);
+            
+            _registerEvents(eventManager, _core[key]);
+        }
+        
+        _setSubscribers(eventManager);
+    };
+    
+    /**
+     * Register component events
+     * 
+     * @param {Eternity.Components.EventManager.EventManager} eventManager - eventManager
+     * @param {Object} component - core component
+     */
+    var _registerEvents = function(eventManager, component){
+        if(component.hasOwnProperty('getEvents') && 'function' === typeof component.getEvents){
+            eventManager.registerEvents(component.getEvents());
+        }
+    };
+    
+    /**
+     * Set component subscribers
+     * 
+     * @param {Eternity.Components.EventManager.EventManager} eventManager - eventManager
+     */
+    var _setSubscribers = function(eventManager){
+        var key;
+        
+        for(key in _core){
+            if(_core[key].hasOwnProperty('getSubscribers') && 'function' === typeof _core[key].getSubscribers){
+                _subscribe(eventManager, _core[key].getSubscribers());
+            }
+        }
+    };
+    
+    /**
+     * Add subscribers
+     * 
+     * @param {Eternity.Components.EventManager.EventManager} eventManager - eventManager
+     * @param {Object[]} subscribers - list of subscribers to subscribe
+     */
+    var _subscribe = function(eventManager, subscribers){
+        var i;
+        
+        for(i = 0; i < subscribers.length; i++){
+            eventManager.subscribe(subscribers[i].event, subscribers[i].handler);
         }
     };
     
