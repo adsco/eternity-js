@@ -6,6 +6,7 @@ Eternity.Components = {};
 Eternity.Components.Converter = {};
 Eternity.Components.DOM = {};
 Eternity.Components.DOM.Element = {};
+Eternity.Components.EventManager = {};
 Eternity.Components.Input = {};
 Eternity.Components.Input.Resolver = {};
 Eternity.Components.Input.Handler = {};
