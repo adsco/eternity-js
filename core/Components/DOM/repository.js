@@ -1,7 +1,7 @@
 /**
  * Storage for references to DOM elements
  */
-Eternity.Components.DOM.Repository = function(){
+Eternity.Components.DOM.Repository = function(event){
     /**
      * @type Eternity.Components.DOM.Repository
      */
@@ -20,7 +20,21 @@ Eternity.Components.DOM.Repository = function(){
     /**
      * @type Object[]
      */
-    var _log = [];
+    var _fields = [];
+    
+    /**
+     * @type String
+     */
+    var _event = '';
+    
+    /**
+     * Constructor
+     * 
+     * @param {Eternity.Components.EventManager.EventManager} eventManager
+     */
+    var _construct = function(event){
+        _event = event;
+    };
     
     /**
      * Add element to repository
@@ -84,7 +98,7 @@ Eternity.Components.DOM.Repository = function(){
         var el = _me.getSingle(id);
         
         if(el){
-            _logElement(id, value);
+            _trace(id, value);
             el.value = value;
         }
     };
@@ -94,15 +108,29 @@ Eternity.Components.DOM.Repository = function(){
      * 
      * @returns {Object[]}
      */
-    this.getLog = function(){
-        return _log;
+    this.getTrace = function(){
+        return _fields;
+    };
+    
+    /**
+     * Get event subscribers
+     * 
+     * @returns {Object[]}
+     */
+    this.getSubscribers = function(){
+        return [{
+            event: _event,
+            handler: function(){
+                _clearTrace.call(_me);
+            }
+        }];
     };
     
     /**
      * Clear log info
      */
-    this.clearLog = function(){
-        _log = [];
+    var _clearTrace = function(){
+        _fields = [];
     };
     
     /**
@@ -112,8 +140,8 @@ Eternity.Components.DOM.Repository = function(){
      * @param {String} field - field
      * @param {mixed} value - value to set
      */
-    var _logElement = function(field, value){
-        _log.push({
+    var _trace = function(field, value){
+        _fields.push({
             field: field,
             value: value
         });
@@ -152,4 +180,6 @@ Eternity.Components.DOM.Repository = function(){
         _ids.push(element.id);
         _elements.push(element);
     };
+    
+    _construct.call(this, event);
 };
