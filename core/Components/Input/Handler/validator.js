@@ -72,7 +72,7 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
      */
     this.handle = function(element, e){
         var identifier = elementCrawler.getAttribute(element, 'id'),
-            fields = _domRepository.getLog();
+            fields = _domRepository.getTrace();
         
         _reset();
         
@@ -83,11 +83,6 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
         });
         
         _validate(fields);
-        
-        //@todo tmp dom repository log clearer
-        //should be moved to event listener 
-        //and should be executed before trigger action
-        _domRepository.clearLog();
         
         return _getResult();
     };
