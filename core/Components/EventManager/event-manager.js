@@ -3,6 +3,11 @@
  */
 Eternity.Components.EventManager.EventManager = function(){
     /**
+     * @type Eternity.Components.EventManager.EventManager
+     */
+    var _me = this;
+    
+    /**
      * @type Object
      */
     var _events = {};
@@ -21,6 +26,20 @@ Eternity.Components.EventManager.EventManager = function(){
      */
     this.registerEvent = function(eventName){
         _addEvent(eventName);
+    };
+    
+    /**
+     * Register array of events
+     * 
+     * @param {String[]} eventNames
+     * @returns {undefined}
+     */
+    this.registerEvents = function(eventNames){
+        var i;
+        
+        for(i = 0; i < eventNames.length; i++){
+            _me.registerEvent(eventNames[i]);
+        }
     };
     
     /**
