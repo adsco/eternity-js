@@ -32,7 +32,6 @@ Eternity.Components.EventManager.EventManager = function(){
      * Register array of events
      * 
      * @param {String[]} eventNames
-     * @returns {undefined}
      */
     this.registerEvents = function(eventNames){
         var i;
