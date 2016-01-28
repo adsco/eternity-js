@@ -6,7 +6,17 @@
  * 
  * @see trackable-factory.js
  */
-Eternity.Components.DOM.Observer = function(elementBinder, router){
+Eternity.Components.DOM.Observer = function(elementBinder, router, eventManager){
+    /**
+     * @type Eternity.Components.DOM.Observer
+     */
+    var _me = this;
+    
+    /**
+     * @type String
+     */
+    var EVENT_CAPTURED = 'observer.event-captured';
+    
     /**
      * @type ElementBinder
      */
@@ -18,11 +28,17 @@ Eternity.Components.DOM.Observer = function(elementBinder, router){
     var _router = null;
     
     /**
+     * @type Eternity.Components.EventManager.EventManager
+     */
+    var _eventManager = null;
+    
+    /**
      * Internal event handler
      * 
      * @param {Event} e
      */
     var _handle = function(e){
+        _eventManager.dispatch(EVENT_CAPTURED);
         //this - element that triggered event
         _router.forward(this, e);
     };
@@ -33,9 +49,10 @@ Eternity.Components.DOM.Observer = function(elementBinder, router){
      * @param {Eternity.Components.DOM.Element.Binder} elementBinder - element event binder
      * @param {Eternity.Components.Router.Router} router - handlers resolver
      */
-    var _construct = function(elementBinder, router){
+    var _construct = function(elementBinder, router, eventManager){
         _elementBinder = elementBinder;
         _router = router;
+        _eventManager = eventManager;
     };
     
     /**
@@ -51,5 +68,16 @@ Eternity.Components.DOM.Observer = function(elementBinder, router){
         }
     };
     
-    _construct.call(this, elementBinder, router);
+    /**
+     * Get list of events that could be triggered by Eternity.Components.DOM.Observer
+     * 
+     * @returns {String[]}
+     */
+    this.getEvents = function(){
+        return [
+            EVENT_CAPTURED
+        ];
+    };
+    
+    _construct.call(this, elementBinder, router, eventManager);
 };
