@@ -90,7 +90,7 @@ Eternity.config = {
         {
             name: 'output.handler.validator',
             cls: 'Eternity.Components.Output.Handler.Validator',
-            args: ['@dom.repository']
+            args: ['@dom.repository', '@vendor.floater']
         }
     ],
     misc: [
@@ -112,6 +112,11 @@ Eternity.config = {
         {
             name: 'helper.validation',
             cls: 'Eternity.Helper.ValidationMapper',
+            args: []
+        },
+        {
+            name: 'vendor.floater',
+            cls: 'Floater',
             args: []
         }
     ]
