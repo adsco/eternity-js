@@ -7,9 +7,14 @@
  */
 Eternity.Helper.RuleMapperHelper = function(ruleMapper) {
     /**
-     * Eternity.Helper.RuleMapper
+     * @type Eternity.Helper.RuleMapper
      */
     var _ruleMapper = null;
+    
+    /**
+     * @type String[]
+     */
+    var _nodes = [];
     
     /**
      * Constructor
@@ -36,11 +41,53 @@ Eternity.Helper.RuleMapperHelper = function(ruleMapper) {
     /**
      * Get execution queue for single rule
      * 
+     * @todo clear _nodes before returning result
+     * 
      * @param {String} identifier - field identifier
      * @return {mixed[]}
      */
     this.getQueueSingle = function(identifier) {
+        //reset all runtime variables
+        _resetNodes();
+        //build execution queue
+        _buildExecutionQueue(identifier);
         
+        return _nodes;
+    };
+    
+    /**
+     * Reset nodes
+     */
+    var _resetNodes = function() {
+        _nodes = [];
+    };
+    
+    /**
+     * Nodes whos value must be recalculated
+     * 
+     * @param {String} identifier - field identifier that triggered event
+     */
+    var _buildExecutionQueue = function(identifier) {
+        _getNodes(identifier);
+    };
+    
+    /**
+     * Go 1 level down of element tree
+     * 
+     * @param {String} identifier - field identifier that triggered error
+     */
+    var _getNodes = function(identifier) {
+        var targets = _ruleMapper.getMapByInitiator(identifier),
+            i;
+    
+        if (!targets.length) {
+            return false;
+        }
+        
+        for(i = 0; i < targets.length; i++){
+            _nodes.push(targets[i].target);
+            _getNodes(targets[i].target);
+        }
     };
     
     _construct.call(this, ruleMapper);
