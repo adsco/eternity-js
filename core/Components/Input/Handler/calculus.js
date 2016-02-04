@@ -1,7 +1,7 @@
 /**
  * Calculus handler
  */
-Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawler, mapper){
+Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawler, mapper) {
     /**
      * @type Handler
      */
@@ -10,7 +10,9 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
     /**
      * @type String
      */
-    var EVENT_TYPE = 'update-value';
+    var RESULT_EVENT_TYPE = 'update-value';
+    
+    var EVENT_UPDATE_ALL_VALUES = 'update-value-all';
     
     /**
      * @type String
@@ -48,9 +50,8 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * @param {DataProvider} dataProvider - data provider
      * @param {Mapper} mapper - mapper
      * @param {ElementCrawler} elementCrawler - element crawler
-     * @param {String} type - subscription type
      */
-    var _construct = function(dataProvider, elementCrawler, mapper){
+    var _construct = function(dataProvider, elementCrawler, mapper) {
         _dataProvider = dataProvider;
         _mapper = mapper;
         _elementCrawler = elementCrawler;
@@ -63,8 +64,13 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * @param {Event} e - event triggered
      * @returns {Boolean}
      */
-    this.supports = function(element, e){
+    this.supports = function(element, e) {
         var identifier = _elementCrawler.getAttribute(element, 'id');
+        
+        //run all calculations
+        if (e.type == EVENT_UPDATE_ALL_VALUES) {
+            return true;
+        }
         
         return _mapper.isMapped(identifier);
     };
@@ -79,7 +85,48 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * @param {Event} e - event triggered
      * @returns {Result}
      */
-    this.handle = function(element, e){
+    this.handle = function(element, e) {
+        if (e.type == EVENT_UPDATE_ALL_VALUES) {
+            return _runAll();
+        } else {
+            return _runSingle(element, e);
+        }
+    };
+    
+    /**
+     * Method used by mapper to get element's value,
+     * if cached value for the requested field exists, cached value will be returned
+     * 
+     * @param {String} field - field whos value needs to be retrieved
+     * @returns {Integer}
+     */
+    this.getValue = function(field) {
+        var result = _getFieldResult(field);
+        
+        if (result) {
+            return result.value;
+        } else {
+            return _dataProvider.getValue(field);
+        }
+    };
+    
+    /**
+     * Execute all mapped field formulas
+     * 
+     * @returns {Result}
+     */
+    var _runAll = function() {
+        
+    };
+    
+    /**
+     * Execute single field node
+     * 
+     * @param {Element} element - element that triggered event
+     * @param {Event} e - event triggered
+     * @returns {Result}
+     */
+    var _runSingle = function(element, e) {
         var identifier = _elementCrawler.getAttribute(element, 'id');
 
         //reset all runtime variables
@@ -93,28 +140,11 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
     };
     
     /**
-     * Method used by mapper to get element's value,
-     * if cached value for the requested field exists, cached value will be returned
-     * 
-     * @param {String} field - field whos value needs to be retrieved
-     * @returns {Integer}
-     */
-    this.getValue = function(field){
-        var result = _getFieldResult(field);
-        
-        if(result){
-            return result.value;
-        } else {
-            return _dataProvider.getValue(field);
-        }
-    };
-    
-    /**
      * Nodes whos value must be recalculated
      * 
      * @param {String} field - field that triggered event
      */
-    var _buildExecutionQueue = function(field){
+    var _buildExecutionQueue = function(field) {
         _getNodes(field);
     };
     
@@ -123,11 +153,11 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * 
      * @param {String} field - field that triggered error
      */
-    var _getNodes = function(field){
+    var _getNodes = function(field) {
         var targets = _mapper.getMapByInitiator(field),
             i;
     
-        if(targets.length){
+        if (targets.length) {
             for(i = 0; i < targets.length; i++){
                 _nodes.push(targets[i].target);
                 _getNodes(targets[i].target);
@@ -141,7 +171,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * @param {String} field - field identifier
      * @param {String} value - value 
      */
-    var _appendResult = function(field, value){
+    var _appendResult = function(field, value) {
         _result.push({
             field: field,
             value: value
@@ -152,9 +182,9 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * Get accumulated result
      * @returns {Eternity.Components.Input.Handler.Calculus._getResult.calculusAnonym$1}
      */
-    var _getResult = function(){
+    var _getResult = function() {
         return {
-            type: EVENT_TYPE,
+            type: RESULT_EVENT_TYPE,
             data: _result
         };
     };
@@ -166,10 +196,10 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * @returns {Object|null} - result object or null if value for the requested field
      * has not been calculated
      */
-    var _getFieldResult = function(field){
+    var _getFieldResult = function(field) {
         var i;
         
-        for(i = 0; i < _result.length; i++){
+        for (i = 0; i < _result.length; i++) {
             if(_result[i].field == field){
                 return _result[i];
             }
@@ -181,11 +211,11 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
     /**
      * Execute calculation of stacked nodes
      */
-    var _calculate = function(){
+    var _calculate = function() {
         var map,
             i;
         
-        for(i = 0; i < _nodes.length; i++){
+        for (i = 0; i < _nodes.length; i++) {
             map = _mapper.getMapByTarget(_nodes[i]);
             _appendResult(_nodes[i], map.handler(_me));
         };
@@ -194,7 +224,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
     /**
      * Reset all recent data stored
      */
-    var _reset = function(){
+    var _reset = function() {
         _nodes = [];
         _result = [];
     };
