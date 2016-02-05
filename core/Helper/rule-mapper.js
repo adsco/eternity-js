@@ -73,6 +73,17 @@ Eternity.Helper.RuleMapper = function(){
         }
     };
     
+    this.getTargetInitiators = function(target) {
+        var initiators = [],
+            key;
+        
+        for (key in _map) {
+            initiators = initiators.concat( _getMapInitiators(_map[key], target) );
+        }
+        
+        return initiators;
+    };
+    
     /**
      * Check is field already mapped
      * 
@@ -149,5 +160,18 @@ Eternity.Helper.RuleMapper = function(){
      */
     var _hasTarget = function(target){
         return -1 === _targets.indexOf(target) ? false : true;
+    };
+    
+    var _getMapInitiators = function(map, target) {
+        var initiators = [],
+            i;
+        
+        for (i = 0; i < map.length; i++) {
+            if (map[i].target == target) {
+                initiators.push(map[i]);
+            }
+        }
+        
+        return initiators;
     };
 };
