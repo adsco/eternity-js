@@ -33,4 +33,5 @@ QUnit.test('Mapper test', function(assert){
     assert.equal(mapper.isMapped('field2'), false, 'Test isMapped, should be false');
     assert.deepEqual(mapper.getMapByInitiator('field1'), [{field: "field1", handler: field.handler, target: field.target}], 'Test get field by initiator');
     assert.deepEqual(mapper.getMapByTarget('field2'), {field: "field1", handler: field.handler, target: field.target}, 'Test get field by target');
+    assert.deepEqual(mapper.getTargetInitiators('field2'), [{field: "field1", handler: field.handler, target: field.target}], 'Get target by initiators');
 });
