@@ -14,7 +14,12 @@ Eternity.Helper.RuleMapperHelper = function(ruleMapper) {
     /**
      * @type String[]
      */
-    var _nodes = [];
+    var _queue = [];
+    
+    /**
+     * @type String[]
+     */
+    var _stack = [];
     
     /**
      * Constructor
@@ -35,7 +40,9 @@ Eternity.Helper.RuleMapperHelper = function(ruleMapper) {
      * @return {mixed[]}
      */
     this.getQueueAll = function() {
-        
+        while (_queue.length) {
+            
+        }
     };
 
     /**
@@ -88,6 +95,19 @@ Eternity.Helper.RuleMapperHelper = function(ruleMapper) {
             _nodes.push(targets[i].target);
             _getNodes(targets[i].target);
         }
+    };
+    
+    /**
+     * Breadth first search
+     * 
+     * @param {String} identifier - node identifier
+     */
+    var _bfs = function(identifier) {
+        //push node initiators to global queue
+        _queue.push( _ruleMapper.getTargetInitiators(identifier) );
+        
+        //push node to global stack
+        _stack.push(identifier);
     };
     
     _construct.call(this, ruleMapper);

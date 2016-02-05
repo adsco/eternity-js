@@ -12,6 +12,9 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      */
     var RESULT_EVENT_TYPE = 'update-value';
     
+    /**
+     * @type String
+     */
     var EVENT_UPDATE_ALL_VALUES = 'update-value-all';
     
     /**
