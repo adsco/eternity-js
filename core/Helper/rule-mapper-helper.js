@@ -41,7 +41,7 @@ Eternity.Helper.RuleMapperHelper = function(ruleMapper) {
      */
     this.getQueueAll = function() {
         while (_queue.length) {
-            
+            _bfs();
         }
     };
 
