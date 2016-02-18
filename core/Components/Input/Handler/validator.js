@@ -8,6 +8,11 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
     var EVENT_TYPE = 'validation-check';
     
     /**
+     * @type String
+     */
+    var EVENT_VALIDATE_ALL = 'validate-all';
+    
+    /**
      * @type Eternity.Helper.ValidationMapper
      */
     var _validation = null;
@@ -57,6 +62,10 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
     this.supports = function(element, e){
         var identifier = elementCrawler.getAttribute(element, 'id');
         
+        if (e.type == EVENT_VALIDATE_ALL) {
+          return true;
+        }
+        
         return validation.hasConstraint(identifier);
     };
     
@@ -71,10 +80,41 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
      * @returns {Eternity.Factory.Result}
      */
     this.handle = function(element, e){
-        var identifier = elementCrawler.getAttribute(element, 'id'),
-            fields = _domRepository.getTrace();
-        
         _reset();
+        
+        if (e.type == EVENT_VALIDATE_ALL) {
+          return _runAllValidations();
+        } else {
+          return _runSingleValidation(element, e);
+        }
+    };
+    
+    /**
+     * Run all validations at once
+     * 
+     * @returns {mixed[]}
+     */
+    var _runAllValidations = function() {
+      var validations = validation.getConstraints(),
+          i;
+  
+      for (i = 0; i < validations.length; i++) {
+        _runValidation(validations[i].field, validations[i]);
+      }
+      console.log(_getResult());
+      return _getResult();
+    };
+    
+    /**
+     * Run single field onchange validation
+     * 
+     * @param {Element} element
+     * @param {Event} e
+     * @returns {mixed[]}
+     */
+    var _runSingleValidation = function(element, e) {
+      var identifier = elementCrawler.getAttribute(element, 'id'),
+            fields = _domRepository.getTrace();
         
         //initiator field should be validated too
         fields.push({
@@ -94,21 +134,32 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
      */
     var _validate = function(fields){
         var constraint,
-            result,
             i;
         
         for(i = 0; i < fields.length; i++){
             constraint = _validation.getConstraint(fields[i].field);
             if(constraint){
-                result = constraint.constraint(dataProvider);
-                if('boolean' !== typeof result){
-                    throw new Error('Contraint result must be boolean value');
-                }
-                
-                //set message only if validation fails
-                _appendResult(fields[i].field, result, false === result ? constraint.message : '');
+                _runValidation(fields[i].field, constraint);
             }
         }
+    };
+    
+    /**
+     * Constraint execution
+     * 
+     * @param {String} field - field name
+     * @param {mixed} constraint - constraint
+     */
+    var _runValidation = function(field, constraint) {
+      var result;
+      
+      result = constraint.constraint(_dataProvider);
+      if('boolean' !== typeof result){
+          throw new Error('Contraint result must be boolean value');
+      }
+
+      //set message only if validation fails
+      _appendResult(field, result, false === result ? constraint.message : '');
     };
     
     /**

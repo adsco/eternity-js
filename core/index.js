@@ -88,13 +88,21 @@ window.onload = function(){
 
     eternityApp.observe(elements, ['doubleclick']);
     
-    var btn = document.getElementById('btn-1');
+    var btn1 = document.getElementById('btn-1'),
+        btn2 = document.getElementById('btn-2');
     
-    btn.addEventListener('click', function(e){
+    btn1.addEventListener('click', function(e) {
       var event = new Event('update-value-all');
       
       this.dispatchEvent(event);
     });
     
-    eternityApp.observe([btn], ['update-value-all']);
+    btn2.addEventListener('click', function(e) {
+      var event = new Event('validate-all');
+
+      this.dispatchEvent(event);
+    });
+    
+    eternityApp.observe([btn1], ['update-value-all']);
+    eternityApp.observe([btn2], ['validate-all']);
 };
