@@ -12,16 +12,6 @@ Eternity.Helper.RuleMapperQueue = function(ruleMapper) {
     var _ruleMapper = null;
     
     /**
-     * @type String[]
-     */
-    var _queue = [];
-    
-    /**
-     * @type String[]
-     */
-    var _stack = [];
-    
-    /**
      * Constructor
      * 
      * @param {Eternity.Helper.RuleMapper} ruleMapper
@@ -93,10 +83,24 @@ Eternity.Helper.RuleMapperQueue = function(ruleMapper) {
       return roots;
     };
     
+    /**
+     * Get target rules
+     * 
+     * @param {String} target - target field name
+     * @returns {mixed[]}
+     */
     var _getRules = function(target) {
       return _ruleMapper.getMapByInitiator(target);
     };
     
+    /**
+     * Create walk map from roots to leaves,
+     * stack passed each time to avoid use of private variables
+     * 
+     * @param {mixed[]} roots - initial nodes/roots
+     * @param {mixed[]} stack - walk map
+     * @returns {mixed[]}
+     */
     var _walkToLeaves = function(roots, stack) {
       var queue = [],
           i;
@@ -120,10 +124,23 @@ Eternity.Helper.RuleMapperQueue = function(ruleMapper) {
       }
     };
     
+    /**
+     * Get field initiators, in other words
+     * get node leaves
+     * 
+     * @param {String} field - target field name
+     * @returns {mixed[]}
+     */
     var _getInitiators = function(field) {
       return _ruleMapper.getTargetInitiators(field);
     };
     
+    /**
+     * Remove duplicates from stack
+     * 
+     * @param {mixed[]} map - map stack
+     * @returns {mixed[]} - duplicate free map
+     */
     var _removeDuplicates = function(map) {
       var duplicateFreeMap = [],
           reservedMap = [],

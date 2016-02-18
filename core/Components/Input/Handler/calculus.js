@@ -18,11 +18,6 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
     var EVENT_UPDATE_ALL_VALUES = 'update-value-all';
     
     /**
-     * @type String
-     */
-    var _type = null;
-    
-    /**
      * @type DataProvider
      */
     var _dataProvider = null;
@@ -58,6 +53,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * @param {DataProvider} dataProvider - data provider
      * @param {Mapper} mapper - mapper
      * @param {ElementCrawler} elementCrawler - element crawler
+     * @param {MapperQueue} mapperQueue - mapper queue
      */
     var _construct = function(dataProvider, elementCrawler, mapper, mapperQueue) {
         _dataProvider = dataProvider;
@@ -130,7 +126,6 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
       
       for (i = 0; i < rules.length; i++) {
         _appendResult(rules[i].target, rules[i].handler(_me));
-        console.log(rules[i].target);
       }
       
       return _getResult();
