@@ -86,5 +86,15 @@ window.onload = function(){
 
     addSection1Constraints(vMapper);
 
-    eternityApp.observe(elements, ['keyup']);
+    eternityApp.observe(elements, ['doubleclick']);
+    
+    var btn = document.getElementById('btn-1');
+    
+    btn.addEventListener('click', function(e){
+      var event = new Event('update-value-all');
+      
+      this.dispatchEvent(event);
+    });
+    
+    eternityApp.observe([btn], ['update-value-all']);
 };

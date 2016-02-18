@@ -1,7 +1,7 @@
 /**
  * Calculus handler
  */
-Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawler, mapper) {
+Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawler, mapper, mapperQueue) {
     /**
      * @type Handler
      */
@@ -33,6 +33,11 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
     var _mapper = null;
     
     /**
+     * @type MapperQueue
+     */
+    var _mapperQueue = null;
+    
+    /**
      * @type ElementCrawler
      */
     var _elementCrawler = null;
@@ -54,9 +59,10 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * @param {Mapper} mapper - mapper
      * @param {ElementCrawler} elementCrawler - element crawler
      */
-    var _construct = function(dataProvider, elementCrawler, mapper) {
+    var _construct = function(dataProvider, elementCrawler, mapper, mapperQueue) {
         _dataProvider = dataProvider;
         _mapper = mapper;
+        _mapperQueue = mapperQueue;
         _elementCrawler = elementCrawler;
     };
     
@@ -119,7 +125,15 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
      * @returns {Result}
      */
     var _runAll = function() {
-        
+      var rules = _mapperQueue.getCompleteRuleQueue(),
+          i;
+      
+      for (i = 0; i < rules.length; i++) {
+        _appendResult(rules[i].target, rules[i].handler(_me));
+        console.log(rules[i].target);
+      }
+      
+      return _getResult();
     };
     
     /**
@@ -232,5 +246,5 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
         _result = [];
     };
     
-    _construct.call(this, dataProvider, elementCrawler, mapper);
+    _construct.call(this, dataProvider, elementCrawler, mapper, mapperQueue);
 };

@@ -71,7 +71,7 @@ Eternity.config = {
         {
             name: 'input.handler.calculus',
             cls: 'Eternity.Components.Input.Handler.Calculus',
-            args: ['@provider.data', '@element.crawler', '@mapper'],
+            args: ['@provider.data', '@element.crawler', '@mapper', '@mapper-queue'],
             tags: {priority: 0}
         },
         {
@@ -98,6 +98,11 @@ Eternity.config = {
             name: 'mapper',
             cls: 'Eternity.Helper.RuleMapper',
             args: []
+        },
+        {
+            name: 'mapper-queue',
+            cls: 'Eternity.Helper.RuleMapperQueue',
+            args: ['@mapper']
         },
         {
             name: 'query-builder',
