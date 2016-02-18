@@ -39,23 +39,8 @@ Eternity.Helper.RuleMapper = function(){
         return this;
     };
     
-    /**
-     * Filter map by custom filter
-     * 
-     * @param {Function} filter - general filter, that filters map
-     * @param {Function} subfilter - sub filter, that will retrieve actual required values
-     * @returns {mixed[]}
-     */
-    this.filter = function(filter, subfilter) {
-        if ('function' !== typeof filter) {
-            throw new Error('Filter argument must be a function');
-        }
-        
-        if ('function' !== typeof subfilter) {
-            throw new Error('Sub filter argument must be a function');
-        }
-        
-        return _filter(filter, subfilter);
+    this.getAll = function() {
+      return _map;
     };
     
     /**
@@ -111,26 +96,6 @@ Eternity.Helper.RuleMapper = function(){
      */
     this.isMapped = function(field){
         return _map[field] ? true : false;
-    };
-    
-    /**
-     * Actual filtering function
-     * 
-     * @param {Function} filter - main filter function
-     * @param {Function} subfilter - sub filter, that will retrieve actual values
-     * @returns {mixed[]}
-     */
-    var _filter = function(filter, subfilter) {
-        var maps = [],
-            key;
-        
-        for (key in _map) {
-            if (true === filter(_map[key])) {
-                maps = maps.concat( subfilter(_map[key]) );
-            }
-        }
-        
-        return maps;
     };
     
     /**
