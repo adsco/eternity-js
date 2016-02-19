@@ -1,15 +1,15 @@
-function getElementBinder(){
-    return new Eternity.Components.DOM.Element.Binder();
+function getElementBinder() {
+  return new Eternity.Components.DOM.Element.Binder();
 }
 
-function getConfig(){
-    return {
-        events: ['change'],
-        handler: null
-    };
+function getConfig() {
+  return {
+    events: ['change'],
+    handler: null
+  };
 }
 
-QUnit.test('Element binder test', function(assert){
+QUnit.test('Element binder test', function(assert) {
     var binder = getElementBinder(),
         events = ['change'],
         el = document.createElement('input'),
