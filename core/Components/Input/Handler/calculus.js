@@ -91,6 +91,9 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
    * @returns {Result}
    */
   this.handle = function(element, e) {
+    //reset all runtime variables
+    _reset();
+    
     if (e.type == EVENT_UPDATE_ALL_VALUES) {
       return _runAll();
     } else {
@@ -107,7 +110,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
    */
   this.getValue = function(field) {
     var result = _getFieldResult(field);
-
+    
     if (result) {
       return result.value;
     } else {
@@ -141,8 +144,6 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
   var _runSingle = function(element, e) {
     var identifier = _elementCrawler.getAttribute(element, 'id');
 
-    //reset all runtime variables
-    _reset();
     //build execution queue
     _buildExecutionQueue(identifier);
     //execute stacked formulas
