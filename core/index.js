@@ -86,7 +86,7 @@ window.onload = function() {
 
   addSection1Constraints(vMapper);
 
-  eternityApp.observe(elements, ['doubleclick']);
+  eternityApp.observe(elements, ['change']);
 
   var btn1 = document.getElementById('btn-1'),
       btn2 = document.getElementById('btn-2');
