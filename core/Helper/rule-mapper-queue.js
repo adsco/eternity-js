@@ -36,6 +36,8 @@ Eternity.Helper.RuleMapperQueue = function(ruleMapper) {
         stack;
 
     //go up to leaves, level by level and stack walk path
+    //@TODO: well, probably duplicates issue could be resolved
+    //during initial mapping
     stack = _removeDuplicates(_walkToLeaves(roots));
 
     return stack.reverse();
