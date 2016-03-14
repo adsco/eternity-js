@@ -18,6 +18,21 @@ Eternity.Components.DOM.Crawler = function(queryBuilder) {
   var _construct = function(queryBuilder) {
     _queryBuilder = queryBuilder;
   };
+  
+  /**
+   * Get single element
+   * 
+   * @param {String} scope - search scope, container inside which element will be searched, default to document
+   * @param {Object} pattern - element selector
+   * @returns {Element|null}
+   */
+  this.getElement = function(scope, selector) {
+      if (!scope || 'document' !== typeof scope || 'function' !== typeof scope.querySelector) {
+          scope = document;
+      }
+      
+      _getElement(_createQueryString(selector), scope);
+  };
 
   /**
    * Get elements that match speicific pattern
