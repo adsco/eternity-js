@@ -42,10 +42,6 @@ Eternity.Components.DOM.Element.Generator = function(domCrawler) {
         var ns = 'string' === typeof namespace ? namespace : PREFIX_DEFAULT;
         var index = 0;
         var id = _generateId(ns, index);
-        
-        //just infinity loop prevention
-        var loopLimit = 1000;
-        var loopIndex = 0;
                 
         while (true) {
             if (domCrawler.getElement(id)) {
@@ -53,12 +49,6 @@ Eternity.Components.DOM.Element.Generator = function(domCrawler) {
             }
             
             id = _generateId(ns, ++index);
-            
-            if (loopIndex >= loopLimit) {
-                throw new Error('Probably infinity loop detected');
-            }
-            
-            loopIndex++;
         }
     };
     
