@@ -32,18 +32,16 @@ Eternity.Components.Worker.Reader.Reader = function(domRepository) {
     this.read = function(ids) {
         var result = {};
         var key;
-        var el;
         var i;
         
         for (i = 0; i < ids.length; i++) {
-            el = _domRepository.getSingle(ids[i][PROPERTY_ID]);
             key = _getKey(ids[i]);
             
             if (result.hasOwnProperty(key)) {
                 throw new Error('Duplicate key detected: ' + key);
             }
             
-            result[key] = _getValue(el);
+            result[key] = _domRepository.getValue(ids[i][key]);
         }
         
         return result;
@@ -62,17 +60,6 @@ Eternity.Components.Worker.Reader.Reader = function(domRepository) {
             key = map[PROPERTY_KEY];
         }
         return key;
-    };
-    
-    /**
-     * Get element value
-     * @TODO: value should be retrieved using special value retriever
-     * 
-     * @param {Object} el - element that contains value
-     * @returns {mixed} - element value
-     */
-    var _getValue = function(el) {
-        return el.value;
     };
     
     _construct.call(this, domRepository);
