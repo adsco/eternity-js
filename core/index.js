@@ -89,7 +89,9 @@ window.onload = function() {
   eternityApp.observe(elements, ['change']);
 
   var btn1 = document.getElementById('btn-1'),
-      btn2 = document.getElementById('btn-2');
+      btn2 = document.getElementById('btn-2'),
+      btn3 = document.getElementById('btn-3'),
+      btn4 = document.getElementById('btn-4');
 
   btn1.addEventListener('click', function(e) {
     var event = new Event('update-value-all');
@@ -101,6 +103,35 @@ window.onload = function() {
     var event = new Event('validate-all');
 
     this.dispatchEvent(event);
+  });
+  
+  btn3.addEventListener('click', function(e) {
+      var writer = eternityApp.getService('worker.writer');
+      var data = [{
+          id: 'input1-1',
+          value: 20
+      }, {
+          id: 'input2-1',
+          value: 10
+      }, {
+          id: 'input2-2',
+          value: 20
+      }];
+      
+      writer.write(data);
+  });
+  
+  btn4.addEventListener('click', function(e) {
+        var reader = eternityApp.getService('worker.reader');
+        var ids = [{
+            id: 'input1-1'
+        }, {
+            id: 'input2-1'
+        }, {
+            id: 'input2-2'
+        }];
+    
+        console.log(reader.read(ids));
   });
 
   eternityApp.observe([btn1], ['update-value-all']);

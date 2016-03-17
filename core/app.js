@@ -126,6 +126,16 @@ Eternity.config = {
       name: 'vendor.floater',
       cls: 'Floater',
       args: []
+    },
+    {
+        name: 'worker.writer',
+        cls: 'Eternity.Components.Worker.Writer.Writer',
+        args: ['@dom.repository']
+    },
+    {
+        name: 'worker.reader',
+        cls: 'Eternity.Components.Worker.Reader.Reader',
+        args: ['@dom.repository']
     }
   ]
 };
