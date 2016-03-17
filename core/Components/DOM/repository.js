@@ -76,7 +76,7 @@ Eternity.Components.DOM.Repository = function(event) {
    * @param {String} id
    * @returns {Element|null}
    */
-  this.getSingle = function(id){
+  this.getSingle = function(id) {
     var i;
 
     for (i = 0; i < _elements.length; i++) {
@@ -85,6 +85,24 @@ Eternity.Components.DOM.Repository = function(event) {
       }
     }
 
+    return null;
+  };
+  
+  /**
+   * Get element value
+   * 
+   * @param {String} id - element id which value will be returned
+   * @returns {mixed} - element value
+   */
+  this.getValue = function(id) {
+    var i;
+
+    for (i = 0; i < _elements.length; i++) {
+        if (_elements[i].id === id) {
+            return _elements[i].value;
+        }
+    }
+    
     return null;
   };
 
