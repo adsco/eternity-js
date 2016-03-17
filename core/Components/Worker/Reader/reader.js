@@ -41,7 +41,7 @@ Eternity.Components.Worker.Reader.Reader = function(domRepository) {
                 throw new Error('Duplicate key detected: ' + key);
             }
             
-            result[key] = _domRepository.getValue(ids[i][key]);
+            result[key] = _domRepository.getValue(key);
         }
         
         return result;
@@ -59,6 +59,7 @@ Eternity.Components.Worker.Reader.Reader = function(domRepository) {
         if (map.hasOwnProperty(PROPERTY_KEY)) {
             key = map[PROPERTY_KEY];
         }
+        
         return key;
     };
     
