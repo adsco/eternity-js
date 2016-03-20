@@ -61,9 +61,13 @@ Eternity.Components.Input.Handler.Validator = function(dataProvider, elementCraw
      * @returns {Boolean}
      */
     this.supports = function(element, e) {
+        if (!element) {
+            throw new Error('Element required');
+        }
+        
         var identifier = elementCrawler.getAttribute(element, 'id');
 
-        if (e.type === EVENT_VALIDATE_ALL) {
+        if (e && e.type === EVENT_VALIDATE_ALL) {
           return true;
         }
 

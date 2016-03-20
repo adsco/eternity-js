@@ -93,7 +93,7 @@ Eternity.config = {
         {
             name: 'output.handler.validator',
             cls: 'Eternity.Components.Output.Handler.Validator',
-            args: ['@dom.repository', '@converter.float']
+            args: ['@dom.repository', '@vendor.floater']
         }
     ],
     misc: [
@@ -136,6 +136,11 @@ Eternity.config = {
             name: 'worker.reader',
             cls: 'Eternity.Components.Worker.Reader.Reader',
             args: ['@dom.repository']
+        },
+        {
+            name: 'vendor.floater',
+            cls: 'Floater',
+            args: []
         }
     ]
 };

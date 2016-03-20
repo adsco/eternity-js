@@ -76,11 +76,11 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
         if (!element) {
             throw new Error('Element required');
         }
-        
+        console.log(e, e.hasOwnProperty('bubbles'));
         identifier = _elementCrawler.getAttribute(element, 'id');
 
         //run all calculations
-        if (e && e.hasOwnProperty('type') && e.type === EVENT_UPDATE_ALL_VALUES) {
+        if (e && e.type === EVENT_UPDATE_ALL_VALUES) {
             return true;
         }
 
