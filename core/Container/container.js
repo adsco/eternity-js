@@ -2,217 +2,217 @@
  * IoC
  */
 Eternity.Container.Container = function() {
-  /**
-   * @type Container
-   */
-  var _me = this;
+    /**
+     * @type Container
+     */
+    var _me = this;
 
-  /**
-   * @type JSON
-   */
-  var _config = {};
+    /**
+     * @type JSON
+     */
+    var _config = {};
 
-  /**
-   * @type JSON
-   */
-  var _services = {};
+    /**
+     * @type JSON
+     */
+    var _services = {};
 
-  /**
-   * Register new class for IoC
-   * 
-   * @param {String} name - system name
-   * @param {String} className - class name
-   * @param {String[]|undefined} args - arguments to be passed into constructor
-   * @returns {Container}
-   */
-  this.register = function(name, className, args) {
-    if (!name || name.trim().length < 1) {
-      throw new Error('Name required, given arguments are: "' + name + '", "' + className + '", [' + (args && args.length ? args.join(', ') : 'no arguments') + ']');
-    }
+    /**
+     * Register new class for IoC
+     * 
+     * @param {String} name - system name
+     * @param {String} className - class name
+     * @param {String[]|undefined} args - arguments to be passed into constructor
+     * @returns {Container}
+     */
+    this.register = function(name, className, args) {
+        if (!name || name.trim().length < 1) {
+            throw new Error('Name required, given arguments are: "' + name + '", "' + className + '", [' + (args && args.length ? args.join(', ') : 'no arguments') + ']');
+        }
 
-    if (_getConfig(name)) {
-      throw new Error('Name "' + name + '" already reserved');
-    }
+        if (_getConfig(name)) {
+            throw new Error('Name "' + name + '" already reserved');
+        }
 
-    _doRegister(name, className, args);
+        _doRegister(name, className, args);
 
-    return this;
-  };
-
-  /**
-   * Create class instance by system name
-   * 
-   * @param {String} name - system name of class
-   * @returns {mixed}
-   */
-  this.create = function(name) {
-    return _create(name);
-  };
-
-  /**
-   * Retrieve class config by system name
-   * 
-   * @param {String} name
-   * @returns {JSON}
-   */
-  var _getConfig = function(name) {
-    return _config[name];
-  };
-
-  /**
-   * Save registered class configuration
-   * 
-   * @param {String} name - system name
-   * @param {String} className - class name
-   * @param {String[]|undefined} args - arguments to be passed into constructor
-   * @returns {Container}
-   */
-  var _doRegister = function(name, className, args) {
-    _config[name] = {
-      name: className,
-      args: args || []
+        return this;
     };
 
-    return this;
-  };
+    /**
+     * Create class instance by system name
+     * 
+     * @param {String} name - system name of class
+     * @returns {mixed}
+     */
+    this.create = function(name) {
+        return _create(name);
+    };
 
-  /**
-   * Get arguments values
-   * 
-   * @param {String[]} argsArray
-   * @returns {Object|String}
-   */
-  var _getArguments = function(argsArray) {
-    var args = [],
-        i;
+    /**
+     * Retrieve class config by system name
+     * 
+     * @param {String} name
+     * @returns {JSON}
+     */
+    var _getConfig = function(name) {
+        return _config[name];
+    };
 
-    for (i = 0; i < argsArray.length; i++) {
-      args.push(
-        _getArgument(argsArray[i])
-      );
-    }
+    /**
+     * Save registered class configuration
+     * 
+     * @param {String} name - system name
+     * @param {String} className - class name
+     * @param {String[]|undefined} args - arguments to be passed into constructor
+     * @returns {Container}
+     */
+    var _doRegister = function(name, className, args) {
+        _config[name] = {
+            name: className,
+            args: args || []
+        };
 
-    return args;
-  };
+        return this;
+    };
 
-  /**
-   * Get single argument value
-   *  
-   * @param {String} argument - argument
-   * @returns {Object|String}
-   */
-  var _getArgument = function(argument) {
-    var service;
+    /**
+     * Get arguments values
+     * 
+     * @param {String[]} argsArray
+     * @returns {Object|String}
+     */
+    var _getArguments = function(argsArray) {
+        var args = [],
+            i;
 
-    if (0 === argument.indexOf('@')) {
-      service = argument.substring(1);
+        for (i = 0; i < argsArray.length; i++) {
+            args.push(
+                _getArgument(argsArray[i])
+            );
+        }
 
-      if (_serviceExists(service)) {
-        return _getService(service);
-      } else {
-        return _create(service);
-      }
-    }
+        return args;
+    };
 
-    return argument;
-  };
+    /**
+     * Get single argument value
+     *  
+     * @param {String} argument - argument
+     * @returns {Object|String}
+     */
+    var _getArgument = function(argument) {
+        var service;
 
-  /**
-   * Check whether class exists or not
-   * 
-   * @param {String} name - class name to check
-   * @returns {Boolean}
-   */
-  var _classExists = function(name) {
-    return window[name] ? true : false;
-  };
+        if (0 === argument.indexOf('@')) {
+            service = argument.substring(1);
 
-  /**
-   * Get class
-   * 
-   * @param {String} name - class name
-   * @returns {Object|null}
-   */
-  var _getClass = function(name) {
-    var classPath = name.split('.'),
-        cls = window[classPath[0]],
-        i;
+            if (_serviceExists(service)) {
+                return _getService(service);
+            } else {
+                return _create(service);
+            }
+        }
 
-    for (i = 1; i < classPath.length; i++) {
-      cls = cls[classPath[i]];
-    }
+        return argument;
+    };
 
-    return cls || null;
-  };
+    /**
+     * Check whether class exists or not
+     * 
+     * @param {String} name - class name to check
+     * @returns {Boolean}
+     */
+    var _classExists = function(name) {
+        return window[name] ? true : false;
+    };
 
-  /**
-   * Recursive class instance creation
-   * 
-   * @param {String} name - system name of class to create
-   * @returns {Object}
-   */
-  var _create = function(name) {
-    var config = _getConfig(name),
-        service;
+    /**
+     * Get class
+     * 
+     * @param {String} name - class name
+     * @returns {Object|null}
+     */
+    var _getClass = function(name) {
+        var classPath = name.split('.'),
+            cls = window[classPath[0]],
+            i;
 
-    if (!config) {
-      throw new Error('Class "' + name + '" is not registered');
-    }
+        for (i = 1; i < classPath.length; i++) {
+            cls = cls[classPath[i]];
+        }
 
-    service = _getService(name);
-    if (!service) {
-      service = _createInstance(config);
-      _registerService(name, service);
-    }
+        return cls || null;
+    };
 
-    return service;
-  };
+    /**
+     * Recursive class instance creation
+     * 
+     * @param {String} name - system name of class to create
+     * @returns {Object}
+     */
+    var _create = function(name) {
+        var config = _getConfig(name),
+            service;
 
-  var _createInstance = function(config) {
-    //bind function 1-st argument ignored cause new operator used
-    //for creating objects
-    var args = [null],
-        cls = _getClass(config.name);
+        if (!config) {
+            throw new Error('Class "' + name + '" is not registered');
+        }
 
-    if (!cls) {
-      throw new Error('Class "' + config.name + '" is not found');
-    }
+        service = _getService(name);
+        if (!service) {
+            service = _createInstance(config);
+            _registerService(name, service);
+        }
 
-    args = args.concat(_getArguments(config.args));
+        return service;
+    };
 
-    return new (Function.prototype.bind.apply(cls, args));
-  };
+    var _createInstance = function(config) {
+        //bind function 1-st argument ignored cause new operator used
+        //for creating objects
+        var args = [null],
+            cls = _getClass(config.name);
 
-  /**
-   * Register service
-   * 
-   * @param {String} name - service system name
-   * @param {Object} service - service itself
-   * @returns {Container}
-   */
-  var _registerService = function(name, service) {
-    _services[name] = service;
+        if (!cls) {
+            throw new Error('Class "' + config.name + '" is not found');
+        }
 
-    return this;
-  };
+        args = args.concat(_getArguments(config.args));
 
-  /**
-   * Check is service exists
-   * 
-   * @param {String} name
-   * @returns {Boolean}
-   */
-  var _serviceExists = function(name) {
-    return _services.hasOwnProperty(name);
-  };
+        return new (Function.prototype.bind.apply(cls, args));
+    };
 
-  /**
-   * Get service by system name
-   * 
-   * @param {String} name - service system name
-   * @returns {Object|null}
-   */
-  var _getService = function(name) {
-    return _services[name] || null;
-  };
+    /**
+     * Register service
+     * 
+     * @param {String} name - service system name
+     * @param {Object} service - service itself
+     * @returns {Container}
+     */
+    var _registerService = function(name, service) {
+        _services[name] = service;
+
+        return this;
+    };
+
+    /**
+     * Check is service exists
+     * 
+     * @param {String} name
+     * @returns {Boolean}
+     */
+    var _serviceExists = function(name) {
+        return _services.hasOwnProperty(name);
+    };
+
+    /**
+     * Get service by system name
+     * 
+     * @param {String} name - service system name
+     * @returns {Object|null}
+     */
+    var _getService = function(name) {
+        return _services[name] || null;
+    };
 };

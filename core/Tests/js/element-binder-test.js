@@ -1,12 +1,12 @@
 function getElementBinder() {
-  return new Eternity.Components.DOM.Element.Binder();
+    return new Eternity.Components.DOM.Element.Binder();
 }
 
 function getConfig() {
-  return {
-    events: ['change'],
-    handler: null
-  };
+    return {
+        events: ['change'],
+        handler: null
+    };
 }
 
 QUnit.test('Element binder test', function(assert) {

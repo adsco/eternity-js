@@ -2,81 +2,81 @@
  * Fields validation mapper
  */
 Eternity.Helper.ValidationMapper = function() {
-  /**
-   * @type Eternity.Helper.ValidationMapper
-   */
-  var _me = this;
+    /**
+     * @type Eternity.Helper.ValidationMapper
+     */
+    var _me = this;
 
-  /**
-   * @type mixed[]
-   */
-  var _constraints = [];
-  
-  /**
-   * Constructor
-   */
-  var _construct = function() {
-    
-  };
+    /**
+     * @type mixed[]
+     */
+    var _constraints = [];
 
-  /**
-   * Add field constraint
-   * 
-   * @param {String} field - field name
-   * @param {Function} constraint - constraint
-   * @param {String} message - error message
-   * @returns {Eternity.Helper.ValidationMapper}
-   */
-  this.add = function(field, constraint, message) {
-    if (_me.hasConstraint(field)) {
-      throw new Error('Constraint for the field "' + field + '" already exists');
-    }
+    /**
+     * Constructor
+     */
+    var _construct = function() {
 
-    _constraints.push({
-      field: field,
-      constraint: constraint,
-      message: message
-    });
+    };
 
-    return this;
-  };
+    /**
+     * Add field constraint
+     * 
+     * @param {String} field - field name
+     * @param {Function} constraint - constraint
+     * @param {String} message - error message
+     * @returns {Eternity.Helper.ValidationMapper}
+     */
+    this.add = function(field, constraint, message) {
+        if (_me.hasConstraint(field)) {
+            throw new Error('Constraint for the field "' + field + '" already exists');
+        }
 
-  /**
-   * Check for field constraint existance
-   * 
-   * @param {String} field - field to test
-   * @returns {Boolean}
-   */
-  this.hasConstraint = function(field) {
-    return !!_me.getConstraint(field);
-  };
+        _constraints.push({
+            field: field,
+            constraint: constraint,
+            message: message
+        });
 
-  /**
-   * Get field constraint
-   * 
-   * @param {String} field - field name
-   * @returns {mixed[]|null} constraint or null if field doesn't have constraint
-   */
-  this.getConstraint = function(field) {
-    var i;
+        return this;
+    };
 
-    for (i = 0; i < _constraints.length; i++) {
-      if (_constraints[i].field == field) {
-        return _constraints[i];
-      }
-    }
+    /**
+     * Check for field constraint existance
+     * 
+     * @param {String} field - field to test
+     * @returns {Boolean}
+     */
+    this.hasConstraint = function(field) {
+        return !!_me.getConstraint(field);
+    };
 
-    return null;
-  };
+    /**
+     * Get field constraint
+     * 
+     * @param {String} field - field name
+     * @returns {mixed[]|null} constraint or null if field doesn't have constraint
+     */
+    this.getConstraint = function(field) {
+        var i;
 
-  /**
-   * Get all registered constraints
-   * 
-   * @returns {mixed[]}
-   */
-  this.getConstraints = function() {
-    return _constraints;
-  };
-  
-  _construct.call(this);
+        for (i = 0; i < _constraints.length; i++) {
+            if (_constraints[i].field == field) {
+                return _constraints[i];
+            }
+        }
+
+        return null;
+    };
+
+    /**
+     * Get all registered constraints
+     * 
+     * @returns {mixed[]}
+     */
+    this.getConstraints = function() {
+        return _constraints;
+    };
+
+    _construct.call(this);
 };
