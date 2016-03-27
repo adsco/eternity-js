@@ -85,12 +85,23 @@ Eternity.config = {
             cls: 'Eternity.Components.Input.Handler.Validator',
             args: ['@provider.data', '@element.crawler', '@helper.validation', '@dom.repository'],
             tags: {priority: 100}
+        },
+        {
+            name: 'input.handler.table-calculus',
+            cls: 'Eternity.Components.Input.Handler.TableCalculus',
+            args: ['@dom.repository', '@table-mapper'],
+            tags: {priority: 0}
         }
     ],
     outputHandlers: [
         {
             name: 'output.handler.value-updater',
             cls: 'Eternity.Components.Output.Handler.ValueUpdater',
+            args: ['@dom.repository']
+        },
+        {
+            name: 'output.handler.table-value-updater',
+            cls: 'Eternity.Components.Output.Handler.TableValueUpdater',
             args: ['@dom.repository']
         },
         {
@@ -109,6 +120,11 @@ Eternity.config = {
             name: 'mapper-queue',
             cls: 'Eternity.Helper.RuleMapperQueue',
             args: ['@mapper']
+        },
+        {
+            name: 'table-mapper',
+            cls: 'Eternity.Helper.TableRuleMapper',
+            args: []
         },
         {
             name: 'query-builder',

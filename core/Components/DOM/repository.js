@@ -95,15 +95,15 @@ Eternity.Components.DOM.Repository = function(event) {
      * @returns {mixed} - element value
      */
     this.getValue = function(id) {
-      var i;
+        var i;
 
-      for (i = 0; i < _elements.length; i++) {
-          if (_elements[i].id === id) {
-              return _elements[i].value;
-          }
-      }
+        for (i = 0; i < _elements.length; i++) {
+            if (_elements[i].id === id) {
+                return _elements[i].value;
+            }
+        }
 
-      return null;
+        return null;
     };
 
     /**

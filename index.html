@@ -84,6 +84,40 @@
             </table>
         </section>
         
+        <section>
+            <h3>Table adapter</h3>
+            <table id="table-1">
+                <tr>
+                    <td>
+                        <input type="text" class="input" /> + 1 =
+                    </td>
+                    <td>
+                        <input type="text" class="input" />
+                    </td>
+                    <td>
+                        <input type="text" class="input" /> * 2 =
+                    </td>
+                    <td>
+                        <input type="text" class="input" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" class="input" /> + 1 =
+                    </td>
+                    <td>
+                        <input type="text" class="input" />
+                    </td>
+                    <td>
+                        <input type="text" class="input" /> * 2 =
+                    </td>
+                    <td>
+                        <input type="text" class="input" />
+                    </td>
+                </tr>
+            </table>
+        </section>
+        
         <div id="error-container" style="position: absolute; padding: 20px;">
             
         </div>
@@ -93,17 +127,21 @@
         <button id="btn-4">Read values (@see console)</button>
         
         <script src="core/app.js"></script>
+        <script src="core/Adapter/DOM/Element/Table.js"></script>
         <script src="core/Container/Container.js"></script>
         <script src="core/Components/Converter/float.js"></script>
         <script src="core/Components/Converter/integer.js"></script>
         <script src="core/Components/Input/Handler/handler.js"></script>
         <script src="core/Components/Input/Handler/calculus.js"></script>
+        <script src="core/Components/Input/Handler/table-calculus.js"></script>
         <script src="core/Components/Input/Handler/validator.js"></script>
         <script src="core/Helper/rule-mapper.js"></script>
         <script src="core/Helper/rule-mapper-queue.js"></script>
+        <script src="core/Helper/table-rule-mapper.js"></script>
         <script src="core/Helper/query-builder.js"></script>
         <script src="core/Helper/validation-mapper.js"></script>
         <script src="core/Components/Output/Handler/value-updater.js"></script>
+        <script src="core/Components/Output/Handler/table-value-updater.js"></script>
         <script src="core/Components/Output/Handler/validator.js"></script>
         <script src="core/Components/Provider/data.js"></script>
         <script src="core/Components/DOM/crawler.js"></script>

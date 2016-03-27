@@ -76,7 +76,7 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
         if (!element) {
             throw new Error('Element required');
         }
-        console.log(e, e.hasOwnProperty('bubbles'));
+        
         identifier = _elementCrawler.getAttribute(element, 'id');
 
         //run all calculations
@@ -253,4 +253,4 @@ Eternity.Components.Input.Handler.Calculus = function(dataProvider, elementCrawl
 };
 
 Eternity.Components.Input.Handler.Calculus.prototype = Object.create(Eternity.Components.Input.Handler.Handler);
-Eternity.Components.Input.Handler.Calculus.constructor = Eternity.Components.Input.Handler.Calculus;
+Eternity.Components.Input.Handler.Calculus.prototype.constructor = Eternity.Components.Input.Handler.Calculus;

@@ -74,54 +74,54 @@ function addSection1Constraints(vMapper) {
 }
 
 window.onload = function() {
-  var domCrawler = eternityApp.getService('dom.crawler'),
-      elements = domCrawler.getElements({tag: 'body'}, {tag: 'input', attributes: [{name: 'data-type', value: 'cell'}]}),
-      mapper = eternityApp.getService('mapper'),
-      vMapper = eternityApp.getService('helper.validation');
+    var domCrawler = eternityApp.getService('dom.crawler'),
+        elements = domCrawler.getElements({tag: 'body'}, {tag: 'input', attributes: [{name: 'data-type', value: 'cell'}]}),
+        mapper = eternityApp.getService('mapper'),
+        vMapper = eternityApp.getService('helper.validation');
 
-  mapSection1(mapper);
-  mapSection2(mapper);
-  mapSection3(mapper);
-  mapSection4(mapper);
+    mapSection1(mapper);
+    mapSection2(mapper);
+    mapSection3(mapper);
+    mapSection4(mapper);
 
-  addSection1Constraints(vMapper);
+    addSection1Constraints(vMapper);
 
-  eternityApp.observe(elements, ['change']);
+    eternityApp.observe(elements, ['change']);
 
-  var btn1 = document.getElementById('btn-1'),
-      btn2 = document.getElementById('btn-2'),
-      btn3 = document.getElementById('btn-3'),
-      btn4 = document.getElementById('btn-4');
+    var btn1 = document.getElementById('btn-1'),
+        btn2 = document.getElementById('btn-2'),
+        btn3 = document.getElementById('btn-3'),
+        btn4 = document.getElementById('btn-4');
 
-  btn1.addEventListener('click', function(e) {
-    var event = new Event('update-value-all');
+    btn1.addEventListener('click', function(e) {
+        var event = new Event('update-value-all');
 
-    this.dispatchEvent(event);
-  });
+        this.dispatchEvent(event);
+    });
 
-  btn2.addEventListener('click', function(e) {
-    var event = new Event('validate-all');
+    btn2.addEventListener('click', function(e) {
+        var event = new Event('validate-all');
 
-    this.dispatchEvent(event);
-  });
-  
-  btn3.addEventListener('click', function(e) {
-      var writer = eternityApp.getService('worker.writer');
-      var data = [{
-          id: 'input1-1',
-          value: 20
-      }, {
-          id: 'input2-1',
-          value: 10
-      }, {
-          id: 'input2-2',
-          value: 20
-      }];
-      
-      writer.write(data);
-  });
-  
-  btn4.addEventListener('click', function(e) {
+        this.dispatchEvent(event);
+    });
+
+    btn3.addEventListener('click', function(e) {
+        var writer = eternityApp.getService('worker.writer');
+        var data = [{
+            id: 'input1-1',
+            value: 20
+        }, {
+            id: 'input2-1',
+            value: 10
+        }, {
+            id: 'input2-2',
+            value: 20
+        }];
+
+        writer.write(data);
+    });
+
+    btn4.addEventListener('click', function(e) {
         var reader = eternityApp.getService('worker.reader');
         var ids = [{
             id: 'input1-1'
@@ -130,10 +130,24 @@ window.onload = function() {
         }, {
             id: 'input2-2'
         }];
-    
-        console.log(reader.read(ids));
-  });
 
-  eternityApp.observe([btn1], ['update-value-all']);
-  eternityApp.observe([btn2], ['validate-all']);
+        console.log(reader.read(ids));
+    });
+
+    eternityApp.observe([btn1], ['update-value-all']);
+    eternityApp.observe([btn2], ['validate-all']);
+
+    var table = document.getElementById('table-1');
+    var adapter = new Eternity.Adapter.DOM.Element.Table(table, '.input');
+    var tMapper = eternityApp.getService('table-mapper');
+    
+    tMapper.map(['1'], '2', function(handler, row) {
+        return parseInt(handler.getValue(row, 1), 10) + 1;
+    });
+    
+    tMapper.map(['3'], '4', function(handler, row) {
+        return parseInt(handler.getValue(row, 3), 10) * 2;
+    });
+    
+    eternityApp.observe([adapter], ['change']);
 };

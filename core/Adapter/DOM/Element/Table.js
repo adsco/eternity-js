@@ -6,6 +6,8 @@
  * data in limited rows
  */
 Eternity.Adapter.DOM.Element.Table = function(table, selector) {
+    var _me = this;
+    
     /**
      * @var Element
      */
@@ -38,13 +40,16 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
     };
     
     /**
+     * @type String
+     */
+    var EVENT_CELL_CHANGE = 'change';
+    
+    /**
      * @var String
      */
-    var EVENT_TYPE_CHANGE = 'change';
+    var EVENT_TABLE_CHANGE = 'table-change';
     
-    var _events = {
-        change: []
-    };
+    var _events = {};
     
     /**
      * Constructor
@@ -65,6 +70,8 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
         
         _initialize();
     };
+    
+    this.id = 'table-1';
     
     /**
      * Get cell value
@@ -98,8 +105,27 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
         return this;
     };
     
+    /**
+     * Get cell
+     * 
+     * @param {Number} rowIndex - row index
+     * @param {Number} cellIndex - cell index
+     * @returns {Element}
+     */
     this.getCell = function(rowIndex, cellIndex) {
         return _getCell(rowIndex, cellIndex);
+    };
+    
+    /**
+     * Dummy, not implemented yet
+     */
+    this.addEventListener = function(event, handler) {
+        _events[event] = handler;
+        console.log('Table addEventListener is not implemented yet');
+    };
+    
+    this.getAttribute = function() {
+        return undefined;
     };
     
     /**
@@ -110,11 +136,12 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
      * @param {Number} cellIndex - cell cell index
      */
     var _notify = function(cell, rowIndex, cellIndex) {
-        var htmlEvent = _createHTMLEvent(EVENT_TYPE_CHANGE);
-        var tableEvent = _createCustomEvent(EVENT_TYPE_CHANGE, {target: cell, row: rowIndex, cell: cellIndex});
+        var htmlEvent = _createHTMLEvent(EVENT_CELL_CHANGE);
+        var tableEvent = _createCustomEvent(EVENT_TABLE_CHANGE, {target: cell, row: rowIndex, cell: cellIndex});
         
-        cell.dispatchEvent(htmlEvent);
-        _table.dispatchEvent(tableEvent);
+        //cell.dispatchEvent(htmlEvent);
+        //_me.dispatchEvent(tableEvent);
+        _events['change'].call(_me, tableEvent);
     };
     
     /**
@@ -154,6 +181,7 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
         var i;
         
         for (i = 0; i < _table.rows.length; i++) {
+            _table.rows[i].setAttribute('data-index', i + 1);
             cells = _getInputs(_table.rows[i], _selector);
             if (cells) {
                 _rows[i + 1] = cells;
@@ -177,14 +205,27 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
         var i;
         
         for (i = 0; i < row.cells.length; i++) {
-            input = row.cells[0].querySelector(selector);
+            input = row.cells[i].querySelector(selector);
             
             //@todo more robust input validation
             if (input) {
+                input.setAttribute('data-row-index', row.getAttribute('data-index'));
+                input.setAttribute('data-cell-index', i + 1);
+                
+                input.addEventListener('change', function() {
+                    _me.setValue(
+                        parseInt(this.getAttribute('data-row-index'), 10),
+                        parseInt(this.getAttribute('data-cell-index'), 10),
+                        this.value
+                    );
+                });
+                
                 inputs[i + 1] = input;
                 empty = false;
             }
         }
+        
+        console.log(inputs);
         
         return empty ? null : inputs;
     };
