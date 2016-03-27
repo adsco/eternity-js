@@ -1,7 +1,10 @@
 Eternity = {};
 Eternity.Core = {};
-Eternity.Core.Handlers = {};
-Eternity.Core.Misc = {};
+Eternity.Adapter = {};
+Eternity.Adapter.DOM = {};
+Eternity.Adapter.DOM.Element = {};
+Eternity.Handlers = {};
+Eternity.Misc = {};
 Eternity.Components = {};
 Eternity.Components.Converter = {};
 Eternity.Components.DOM = {};
