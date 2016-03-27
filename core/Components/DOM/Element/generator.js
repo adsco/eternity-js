@@ -1,6 +1,8 @@
 /**
  * Class for generating elements, element attributes, etc.
  * For now used for id generation only
+ * 
+ * Not used for now, feature for version 2
  */
 Eternity.Components.DOM.Element.Generator = function(domCrawler) {
     /**
