@@ -1,11 +1,19 @@
 /**
  * Adapt table behaviour
  * 
- * Should have, listeners for inputs, view manipulation(fixed number of rows - data should be replaceable)
+ * Should have, view manipulation(fixed number of rows - data should be replaceable)
  * Future optimization needed use limited number of dom rows but store and substitude
  * data in limited rows
+ * 
+ * @TODO: memorizing cell row and col index is not kinda best way, probably there is
+ * another solution
  */
 Eternity.Adapter.DOM.Element.Table = function(table, selector) {
+    Eternity.Adapter.DOM.Element.Base.call(this);
+    
+    /**
+     * @type Eternity.Adapter.DOM.Element.Table
+     */
     var _me = this;
     
     /**
@@ -14,42 +22,35 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
     var _table = null;
     
     /**
-     * @var String
-     */
-    var _selector = '';
-    
-    /**
      * @var Array
      */
     var _rows = {};
     
     /**
-     * @var Object
+     * @type Number
      */
-    var _config = {
-        //max rows
-        maxItems: 10
-    };
+    var _maxItems = 10;
     
     /**
-     * @var Object
+     * @type Number
      */
-    var _state = {
-        //current page
-        page: 1
-    };
+    var _page = 1;
     
     /**
      * @type String
      */
-    var EVENT_CELL_CHANGE = 'change';
+    var EVENT_CHANGE = 'change';
     
     /**
-     * @var String
+     * Handler that will be invoked on each input change event
+     * 
+     * @param {Eternity.Adapter.DOM.Element.Event.Base} event
      */
-    var EVENT_TABLE_CHANGE = 'table-change';
-    
-    var _events = {};
+    var _inputChangeHandler = function(event) {
+        var source = event.source;
+        
+        console.log('Change triggered at: ' + source.getAttribute('rowIndex') + ' - ' + source.getAttribute('colIndex'), event);
+    };
     
     /**
      * Constructor
@@ -64,126 +65,62 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
         
         _table = table;
         
-        if ('string' === typeof selector) {
-            _selector = selector;
+        if ('string' !== typeof selector) {
+            throw new Error('Selector must be a string');
         }
         
-        _initialize();
+        _initialize(selector);
     };
-    
-    this.id = 'table-1';
     
     /**
      * Get cell value
      * 
      * @param {Number} rowIndex - row number, 1 based
-     * @param {Number} cellIndex - cell number, 1 based
+     * @param {Number} colIndex - cell number, 1 based
      * @returns {mixed} - cell value
      */
-    this.getValue = function(rowIndex, cellIndex) {
-        var cell = _getCell(rowIndex, cellIndex);
+    this.getValue = function(rowIndex, colIndex) {
+        var cell = _getCell(rowIndex, colIndex);
         
-        return cell.value;
+        if (!cell) {
+            throw new Error('Cell at: ' + rowIndex + ' - ' + colIndex + ' doesn\'t exists');
+        }
+        
+        return cell.getValue();
     };
     
     /**
      * Set cell value
      * 
      * @param {Number} rowIndex - row number, 1 based
-     * @param {Number} cellIndex - cell number, 1 based
+     * @param {Number} colIndex - cell number, 1 based
      * @param {mixed} value - value to set
      * @returns {Eternity.Adapters.DOM.Element.Table}
      */
-    this.setValue = function(rowIndex, cellIndex, value) {
-        var cell = _getCell(rowIndex, cellIndex);
+    this.setValue = function(rowIndex, colIndex, value) {
+        var cell = _getCell(rowIndex, colIndex);
         
-        cell.value = value;
+        if (!cell) {
+            throw new Error('Cell at: ' + rowIndex + ' - ' + colIndex + ' doesn\'t exists');
+        }
         
-        //notify change
-        _notify(cell, rowIndex, cellIndex);
+        cell.setValue(value);
 
         return this;
     };
     
     /**
-     * Get cell
-     * 
-     * @param {Number} rowIndex - row index
-     * @param {Number} cellIndex - cell index
-     * @returns {Element}
-     */
-    this.getCell = function(rowIndex, cellIndex) {
-        return _getCell(rowIndex, cellIndex);
-    };
-    
-    /**
-     * Dummy, not implemented yet
-     */
-    this.addEventListener = function(event, handler) {
-        _events[event] = handler;
-        console.log('Table addEventListener is not implemented yet');
-    };
-    
-    this.getAttribute = function() {
-        return undefined;
-    };
-    
-    /**
-     * Temporary solution to trigger change event on cell and table
-     * 
-     * @param {Element} cell - cell event source
-     * @param {Number} rowIndex - cell row index
-     * @param {Number} cellIndex - cell cell index
-     */
-    var _notify = function(cell, rowIndex, cellIndex) {
-        var htmlEvent = _createHTMLEvent(EVENT_CELL_CHANGE);
-        var tableEvent = _createCustomEvent(EVENT_TABLE_CHANGE, {target: cell, row: rowIndex, cell: cellIndex});
-        
-        //cell.dispatchEvent(htmlEvent);
-        //_me.dispatchEvent(tableEvent);
-        _events['change'].call(_me, tableEvent);
-    };
-    
-    /**
-     * Create HTMLEvent
-     * 
-     * @param {String} type - event type
-     * @returns {Event}
-     */
-    var _createHTMLEvent = function(type) {
-        var event = document.createEvent('HTMLEvents');
-        
-        event.initEvent(type, true, true);
-        
-        return event;
-    };
-    
-    /**
-     * Create custom event
-     * 
-     * @param {String} type - event type
-     * @param {Object} params - event params
-     * @returns {Event}
-     */
-    var _createCustomEvent = function(type, params) {
-        var event = new Event(type);
-        
-        event.params = params;
-        
-        return event;
-    };
-    
-    /**
      * Parse table, retrieve it's cells
+     * 
+     * @param {String} selector - input selector
      */
-    var _initialize = function() {
+    var _initialize = function(selector) {
         var cells;
         var i;
         
         for (i = 0; i < _table.rows.length; i++) {
-            _table.rows[i].setAttribute('data-index', i + 1);
-            cells = _getInputs(_table.rows[i], _selector);
-            if (cells) {
+            cells = _getInputs(_table.rows[i], i + 1, selector);
+            if (cells && Object.keys(cells).length) {
                 _rows[i + 1] = cells;
             }
         }
@@ -195,66 +132,69 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
      * ex. {1: <input>, 3: <input>, 4: <input>}
      * 
      * @param {Element} row - table row element
+     * @param {Number} rowIndex - row index
      * @param {String} selector - cell input selector
-     * @returns {Object|null} - indexed object or null if no inputs wil be found
+     * @returns {Object|null} - indexed object or null if no inputs will be found
      */
-    var _getInputs = function(row, selector) {
+    var _getInputs = function(row, rowIndex, selector) {
         var inputs = {};
-        var empty = true;
+        var element;
         var input;
         var i;
         
         for (i = 0; i < row.cells.length; i++) {
-            input = row.cells[i].querySelector(selector);
+            element = _getInput(row.cells[i], selector);
             
-            //@todo more robust input validation
-            if (input) {
-                input.setAttribute('data-row-index', row.getAttribute('data-index'));
-                input.setAttribute('data-cell-index', i + 1);
+            if (element) {
+                input = new Eternity.Adapter.DOM.Element.Input(element);
+                input.setAttribute('rowIndex', rowIndex);
+                input.setAttribute('colIndex', i + 1);
                 
-                input.addEventListener('change', function() {
-                    _me.setValue(
-                        parseInt(this.getAttribute('data-row-index'), 10),
-                        parseInt(this.getAttribute('data-cell-index'), 10),
-                        this.value
-                    );
-                });
+                input.addEventListener('change', _inputChangeHandler);
                 
                 inputs[i + 1] = input;
-                empty = false;
             }
         }
         
-        console.log(inputs);
-        
-        return empty ? null : inputs;
+        return inputs;
+    };
+    
+    /**
+     * Extract input from table cell (td element)
+     * 
+     * @param {Element} cell - table td element
+     * @param {String} selector - input selector
+     * @returns {Element} - input element found by selector
+     */
+    var _getInput = function(cell, selector) {
+        return cell.querySelector(selector);
     };
     
     /**
      * Get entire
      * 
      * @param {Number} rowIndex - row index where cell exists
-     * @param {Number} cellIndex - cell index
-     * @returns {Element}
+     * @param {Number} colIndex - cell index
+     * @returns {Eternity.Adapter.DOM.Element.Base|null}
      */
-    var _getCell = function(rowIndex, cellIndex) {
+    var _getCell = function(rowIndex, colIndex) {
         var row;
         var cell;
         
-        if ('number' !== typeof rowIndex || 'number' !== typeof cellIndex) {
+        if ('number' !== typeof rowIndex || 'number' !== typeof colIndex) {
             throw new Error('Row and cell must be integer value');
         }
         
         row = _rows[parseInt(rowIndex, 10)];
         
         if (!row) {
-            throw new Error('Row at index: "' + rowIndex + '" is not found');
+            return null;
         }
         
-        cell = row[parseInt(cellIndex, 10)];
+        cell = row[parseInt(colIndex, 10)];
         
         if (!cell) {
-            throw new Error('Cell at row index: "' + rowIndex + '" and cell index: "' + cellIndex + '" is not found');
+            return null;
         }
         
         return cell;
@@ -262,3 +202,6 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
     
     _construct.call(this, table, selector);
 };
+
+Eternity.Adapter.DOM.Element.Table.prototype = Object.create(Eternity.Adapter.DOM.Element.Base);
+Eternity.Adapter.DOM.Element.Table.prototype.constructor = Eternity.Adapter.DOM.Element.Table;
