@@ -2,6 +2,11 @@
  * String value into float converter
  */
 Eternity.Components.Converter.Float = function() {
+    Eternity.Components.Converter.Base.call(this);
+    
+    /**
+     * @type Object
+     */
     var _locales = {
         ru: {
             from: '.',
@@ -27,7 +32,7 @@ Eternity.Components.Converter.Float = function() {
      * @param {Number} digits - number of digits of final value
      * @returns {Number}
      */
-    this.get = function(number, digits) {
+    this.toInternalValue = function(number, digits) {
         var float = _parse(number);
 
         if ('undefined' !== typeof digits) {
@@ -44,7 +49,7 @@ Eternity.Components.Converter.Float = function() {
      * @param {String} locale - preferable locale
      * @returns {String}
      */
-    this.toString = function(number, locale) {
+    this.toDisplayValue = function(number, locale) {
         var float = _parse(number);
 
         return _localize(float + '', 'undefined' === typeof locale ? 'ru' : locale);
@@ -128,3 +133,6 @@ Eternity.Components.Converter.Float = function() {
         }
     };
 };
+
+Eternity.Components.Converter.Float.prototype = Object.create(Eternity.Components.Converter.Base);
+Eternity.Components.Converter.Float.prototype.constructor = Eternity.Components.Converter.Float;

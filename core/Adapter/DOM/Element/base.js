@@ -60,4 +60,26 @@ Eternity.Adapter.DOM.Element.Base = function() {
             events[i](event);
         }
     };
+    
+    /**
+     * Set configuration parameter.
+     * 
+     * @param {String} key - config key
+     * @param {mixed} value - config value
+     * @returns {Eternity.Components.Converter.Input}
+     */
+    this.setConfig = function(key, value) {
+        throw new Error('Method setConfig is not implemented');
+    };
+    
+    /**
+     * Service injector
+     * 
+     * @param {String} name - service name
+     * @param {mixed} service - service
+     * @returns {Eternity.Adapter.DOM.Element.Base}
+     */
+    this.inject = function(name, service) {
+        throw new Error('Method inject is not implemented');
+    };
 };

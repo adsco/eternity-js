@@ -2,6 +2,8 @@
  * String value to integer converter
  */
 Eternity.Components.Converter.Integer = function() {
+    Eternity.Components.Converter.Base.call(this);
+    
     /**
      * Constructor
      */
@@ -49,3 +51,6 @@ Eternity.Components.Converter.Integer = function() {
 
     _construct.call(this);
 };
+
+Eternity.Components.Converter.Integer.prototype = Object.create(Eternity.Components.Converter.Base);
+Eternity.Components.Converter.Integer.prototype.constructor = Eternity.Components.Converter.Integer;

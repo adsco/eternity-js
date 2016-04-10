@@ -8,13 +8,28 @@
  * @TODO: memorizing cell row and col index is not kinda best way, probably there is
  * another solution
  */
-Eternity.Adapter.DOM.Element.Table = function(table, selector) {
+Eternity.Adapter.DOM.Element.Table = function(inputFactory, table, selector) {
     Eternity.Adapter.DOM.Element.Base.call(this);
     
     /**
      * @type Eternity.Adapter.DOM.Element.Table
      */
     var _me = this;
+    
+    /**
+     * @type Eternity.Adapter.DOM.Factory.Input
+     */
+    var _inputFactory = null;
+    
+    /**
+     * @type Object
+     */
+    var _config = {
+        cells: {
+            //1 based cells config
+            //ex 1: {type: "integer"}, 2: {type: "float", digits: 2}, 3: {type: "text"}
+        }
+    };
     
     /**
      * @var Element
@@ -58,7 +73,13 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
      * @param {Element} table - table element
      * @param {String} selector - table cell input selector
      */
-    var _construct = function(table, selector) {
+    var _construct = function(inputFactory, table, selector) {
+        if (!inputFactory) {
+            throw new Error('Input factory is required');
+        }
+        
+        _inputFactory = inputFactory;
+        
         if (!table) {
             throw new Error('Table required');
         }
@@ -110,6 +131,15 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
     };
     
     /**
+     * {@inheritDoc}
+     */
+    this.setConfig = function(key, value) {
+        _config[key] = value;
+        
+        return this;
+    };
+    
+    /**
      * Parse table, retrieve it's cells
      * 
      * @param {String} selector - input selector
@@ -138,6 +168,7 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
      */
     var _getInputs = function(row, rowIndex, selector) {
         var inputs = {};
+        var index;
         var element;
         var input;
         var i;
@@ -146,13 +177,15 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
             element = _getInput(row.cells[i], selector);
             
             if (element) {
-                input = new Eternity.Adapter.DOM.Element.Input(element);
+                index = i + 1;
+                
+                input = _inputFactory.create(element, _getCellConfig(index));
                 input.setAttribute('rowIndex', rowIndex);
-                input.setAttribute('colIndex', i + 1);
+                input.setAttribute('colIndex', index);
                 
                 input.addEventListener('change', _inputChangeHandler);
                 
-                inputs[i + 1] = input;
+                inputs[index] = input;
             }
         }
         
@@ -200,7 +233,21 @@ Eternity.Adapter.DOM.Element.Table = function(table, selector) {
         return cell;
     };
     
-    _construct.call(this, table, selector);
+    /**
+     * Get cell config, based on cell index
+     * 
+     * @param {Number} index - cell index
+     * @returns {String} - cell config
+     */
+    var _getCellType = function(index) {
+        if (!_config.cells[index]) {
+            throw new Error('Config for cell at index "' + index + '" is not found');
+        }
+        
+        return _config.cells[index];
+    };
+    
+    _construct.call(this, inputFactory, table, selector);
 };
 
 Eternity.Adapter.DOM.Element.Table.prototype = Object.create(Eternity.Adapter.DOM.Element.Base);
