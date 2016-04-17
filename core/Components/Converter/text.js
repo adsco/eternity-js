@@ -1,12 +1,26 @@
 Eternity.Components.Converter.Text = function() {
     Eternity.Components.Converter.Base.call(this);
     
-    this.toDisplayValue = function() {
-        
+    /**
+     * Convert string to display value
+     * 
+     * @param {mixed} value - string to convert
+     * @param {Object} [config] - additional config
+     * @returns {String}
+     */
+    this.toDisplayValue = function(value, config) {
+        return value;
     };
     
-    this.toInternalValue = function() {
-        
+    /**
+     * Convert string to internal value
+     * 
+     * @param {mixed} value - value to convert
+     * @param {Object} [config] - additional config
+     * @returns {String}
+     */
+    this.toInternalValue = function(value, config) {
+        return value;
     };
 };
 

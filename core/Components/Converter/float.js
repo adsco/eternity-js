@@ -29,14 +29,14 @@ Eternity.Components.Converter.Float = function() {
      * Get float value from string value
      * 
      * @param {String|Number} number - number to convert into float
-     * @param {Number} digits - number of digits of final value
+     * @param {Object} [config] - number of digits of final value
      * @returns {Number}
      */
-    this.toInternalValue = function(number, digits) {
+    this.toInternalValue = function(number, config) {
         var float = _parse(number);
 
-        if ('undefined' !== typeof digits) {
-            return _formatDigits(float);
+        if (config && 'undefined' !== config.digits) {
+            return _formatDigits(float, config.digits);
         }
 
         return float;
@@ -46,13 +46,13 @@ Eternity.Components.Converter.Float = function() {
      * Convert number to it's string representation
      * 
      * @param {Number} number - number to convert
-     * @param {String} locale - preferable locale
+     * @param {Object} [config] - preferable locale
      * @returns {String}
      */
-    this.toDisplayValue = function(number, locale) {
+    this.toDisplayValue = function(number, config) {
         var float = _parse(number);
 
-        return _localize(float + '', 'undefined' === typeof locale ? 'ru' : locale);
+        return _localize(float + '', config && 'undefined' !== typeof config.locale ? config.locale : 'ru');
     };
 
     /**
@@ -79,14 +79,14 @@ Eternity.Components.Converter.Float = function() {
      * @returns {Number}
      */
     var _formatDigits = function(number, digits) {
-        var intDigits = parseInt(digits);
+        var intDigits = parseInt(digits, 10);
 
         if ('number' !== typeof number) {
             throw new Error('Cannot format digits of not a numeric value, "' + number + '" given');
         }
-
-        if ('number' !== intDigits) {
-            throw new Error('Digits argument must be number');
+        
+        if ('number' !== typeof intDigits) {
+            throw new Error('Digits argument must be a number');
         }
 
         if (intDigits < 0) {
@@ -132,6 +132,8 @@ Eternity.Components.Converter.Float = function() {
             throw new Error('Locale "' + locale + '" not found');
         }
     };
+    
+    _construct.call(this);
 };
 
 Eternity.Components.Converter.Float.prototype = Object.create(Eternity.Components.Converter.Base);

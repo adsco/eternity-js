@@ -19,13 +19,19 @@ Eternity.Adapter.DOM.Element.Input = function(element) {
         //convention - config parameters should be set like _config.<input type>.<config key>
         text: {
             //just an example
+        },
+        integer: {
+            
+        },
+        float: {
+            digits: 2
         }
     };
     
     /**
-     * @type Eternity.Components.Converter.Base
+     * @type {Object}
      */
-    var _converters = null;
+    var _services = {};
     
     /**
      * @type Object
@@ -47,18 +53,18 @@ Eternity.Adapter.DOM.Element.Input = function(element) {
      * {@inheritDoc}
      */
     this.getValue = function() {
-        var converter = _getConverter(_config.type);
+        var converter = _getConverter();
         
-        return converter.toInternalValue(_element.value, _getParameters(_config.type));
+        return converter.toInternalValue(_config.type, _element.value, _getConfig(_config.type));
     };
     
     /**
      * {@inheritDoc}
      */
     this.setValue = function(value) {
-        var converter = _getConverter(_config.type);
+        var converter = _getConverter();
         
-        _element.value = converter.toDisplayValue(value, _getParameters(_config.type));
+        _element.value = converter.toDisplayValue(_config.type, value, _getConfig(_config.type));
         
         this.dispatchEvent({type: 'change', source: _me, value: value});
         
@@ -116,10 +122,32 @@ Eternity.Adapter.DOM.Element.Input = function(element) {
     };
     
     /**
+     * Get parameters specific for input type
+     * 
+     * @param {String} type - type of config to retrieve
+     * @returns {Object}
+     */
+    var _getConfig = function(type) {
+        if (!_config.hasOwnProperty(type)) {
+            throw new Error('Config for field type "' + type + '" not found');
+        }
+        
+        return _config.type;
+    };
+    
+    /**
      * {@inheritDoc}
      */
     this.inject = function(name, service) {
-        _converters[name] = service;
+        switch (name) {
+            case 'converter': {
+                _services[name] = service;
+                break;
+            }
+            default: {
+                throw new Error('Cannot inject "' + name + '" service');
+            }
+        }
     };
     
     /**
@@ -137,42 +165,14 @@ Eternity.Adapter.DOM.Element.Input = function(element) {
     /**
      * Get value converter by type
      * 
-     * @param {String} type - converter type name
      * @returns {Eternity.Components.Converter.Base}
      */
-    var _getConverter = function(type) {
-        if (!_converters.hasOwnProperty(type)) {
-            throw new Error('Converter "' + type + '" is not found');
+    var _getConverter = function() {
+        if (!_services.converter) {
+            throw new Error('Converter service is not found');
         }
         
-        return _converters[type];
-    };
-    
-    /**
-     * Get parameters specific for input type
-     * 
-     * @param {String} type - type to which parameters should be retrieved
-     * @returns {Object}
-     */
-    var _getParameters = function(type) {
-        var parameters = {};
-        
-        switch (type) {
-            case 'text': {
-                break;
-            }
-            case 'integer': {
-                break;
-            }
-            case 'float': {
-                parameters.digits = _config.float.digits;
-            }
-            default: {
-                throw new Error('Type ' + type + ' is not defined');
-            }
-        }
-        
-        return parameters;
+        return _services.converter;
     };
     
     /**

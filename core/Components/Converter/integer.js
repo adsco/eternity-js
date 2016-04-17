@@ -12,25 +12,27 @@ Eternity.Components.Converter.Integer = function() {
     };
 
     /**
-     * Get integer value from string
+     * Convert value to integer
      * 
-     * @param {String} number - number from which integer value should be extracted
+     * @param {mixed} value - value to convert to integer
+     * @param {Object} cofnig - additional config
      * @returns {Number}
      */
-    this.get = function(number) {
-        return _parse(number);
+    this.toInternalValue = function(value, config) {
+        return _parse(value);
     };
 
     /**
-     * Convert integer value into string
+     * Convert integer value to display value
      * 
-     * @param {Number} intValue - integer value to be converted into string
-     * @returns {String}
+     * @param {mixed} value - value to convert to integer display value
+     * @param {Object} [config] - additional config
+     * @returns {mixed}
      */
-    this.toString = function(intValue) {
+    this.toDisplayValue = function(intValue) {
         var value = _parse(intValue);
 
-        return value + '';
+        return value;
     };
 
     /**
@@ -40,10 +42,10 @@ Eternity.Components.Converter.Integer = function() {
      * @returns {Number}
      */
     var _parse = function(number) {
-        var intValue = parseInt(number + '', 10);
+        var intValue = parseInt(number, 10);
 
-        if (isNaN(intValue)) {
-            throw new Error('Can\'t parse value "' + number + '"');
+        if (!isFinite(intValue)) {
+            return 0;
         }
 
         return intValue;
